@@ -1,0 +1,26 @@
+BEERCULATOR -> Calculate blood alcohol level according to the amount of beer, and the time it will take to disappear
+
+=> Formulas
+
+- Widmark formula : EBAC = (0.806 * SD *1.2)/(BW * Wt) - (MR * DP)
+where 0.806 is a constant for body water in the blood (mean 80.6%), SD is the number of standard drinks containing 17 grams of ethanol, 
+1.2 is a factor to convert the amount in grams to Swedish standards set by The Swedish National Institute of Public Health, 
+BW is a body water constant (0.58 for men and 0.49 for women), Wt is body weight (kilogram), MR is the metabolism constant (0.017) 
+and DP is the drinking period in hours.
+
+- Simplified Widmark formula : BAC = [Alcohol consumed in grams / (Body weight in grams x r)] x 100. 
+In this formula, “r” is the gender constant: r = 0.55 for females and 0.68 for males.
+
+- BAC% = (A × 5.14/W × r) - .015 × H
+where:
+   A: Total alcohol consumed, in ounces (oz)
+   W: Body weight, in pounds (lbs)
+   r: The alcohol distribution ratio, 0.73 for man, and 0.66 for women
+   H: Time passed since drinking, in hours
+
+=> Needed info :
+
+- Gender
+- Weight
+- Nb of hours since the drinking began
+- Amount of beer (with an average alcohol degree: 5%) 
