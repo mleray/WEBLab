@@ -24,3 +24,25 @@ where:
 - Weight
 - Nb of hours since the drinking began
 - Amount of beer (with an average alcohol degree: 5%) 
+
+
+----------
+
+
+Widmark Formula:
+
+- C = A / (M * R) 
+
+	C: Blood Alcohol level
+	A: Grams of alcohol ingested
+	R: Ratio - 0.70 for man 
+		 - 0.55 for women
+	M: Body weight, in kg
+
+--- How to calculate A?
+
+A = (V * P * 0.8) / 100
+
+	V: Volume of alcohol in c.c
+	P: Alcohol degree 
+	
