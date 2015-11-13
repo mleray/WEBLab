@@ -1,0 +1,97 @@
+\documentclass[a4paper]{article}
+
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{lmodern}
+\usepackage[left=3cm, right=3cm, bottom=4cm, top=4cm]{geometry}
+\usepackage{array}
+\usepackage{listings}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{sidecap}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage[gen]{eurosym}
+\DeclareUnicodeCharacter{20AC}{\euro{}}
+
+\usepackage{hyperref}
+\hypersetup{    
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
+\begin{document}
+
+\begin{titlepage}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+\center
+
+\begin{spacing}{1.5}
+\textsc{\LARGE Budapest University of Technology and Economics}\\[2cm]
+\end{spacing}
+\textsc{\Large WEB-based Laboratory}\\[0.5cm]
+\textsc{\large Written report}\\[0.5cm]
+
+\HRule \\[0.4cm]
+{ \huge \bfseries Beerculator}\\[0.4cm] % Title of your document
+\HRule \\[1.5cm]
+ 
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft} \large
+\emph{Authors:}\\
+Alvaro \textsc{Gonzalez},\\
+Maud \textsc{Leray},\\
+Patricio \textsc{Sanchez},\\
+Tomás \textsc{Sekanina}
+\end{flushleft}
+\end{minipage}
+~
+\begin{minipage}{0.4\textwidth}
+\begin{flushright} \large
+\emph{Supervisor:} \\
+Dr. János \textsc{Hamar}
+\end{flushright}
+\end{minipage}\\[4cm]
+
+\end{titlepage}
+
+%\newpage
+%\thispagestyle{empty}
+%\null
+%\newpage
+
+    \tableofcontents
+
+    \newpage
+    \input{./input/intro.tex}
+    \newpage
+    \input{./input/req.tex}
+    \newpage
+    \input{./input/spec.tex}
+    \newpage
+    \input{./input/task.tex}
+    \newpage
+    \input{./input/techno.tex}
+    \newpage
+    \input{./input/design.tex}
+    \newpage
+    \input{./input/impl.tex}
+    \newpage
+    \input{./input/test.tex}
+    \newpage
+    \input{./input/team.tex}
+    \newpage
+    \input{./input/conclusion.tex}
+    \newpage
+    \input{./input/ideas.tex}
+
+\end{document}

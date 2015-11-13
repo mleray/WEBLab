@@ -1,0 +1,68 @@
+\section{Specification}
+\label{sec:spec}
+
+\subsection{Needed informations}
+\label{ssec:info} 
+
+In order to calculate the user's blood alcohol concentration (BAC), we need a few informations about him and about his drinking. More precisely, we need the elements listed below :
+
+\begin{itemize}
+\item Gender (M/F) ;
+\item Weight ;
+\item Number of hours since the drinking began ; 
+\item Amount of alcohol.
+\end{itemize}
+
+\subsection{BAC calculation formula}
+\label{ssec:formula}
+
+To calculate the blood alcohol concentration, we will use the Widmark formula, which is the following:
+
+\begin{equation}
+   BAC = A \div (R \times M)
+\end{equation}
+   
+In this formula, we have :
+
+\begin{itemize} 
+\item BAC : Blood Alcohol Concentration ;
+\item A : Alcohol ingested, in grams ;
+\item R : Ratio (0.70 for men, 0.55 for women) ;
+\item M : Body weight, in kilograms.
+\end{itemize}
+
+To obtain the value of A, we use this formula :
+
+\begin{equation}
+   A = (V \times P \times 0.8) \div 100
+\end{equation}
+
+In this formula, we have :
+
+\begin{itemize}
+\item V : Volume of alcohol in c.c ;
+\item P : Alcohol degree, in percentage.
+\end{itemize}
+
+\subsection{Elimination of alcohol}
+\label{ssec:elim}
+
+The median rate of decrease in BAC is considered to be 15 milligrams per cent (mg\%) per hour. In our calculation we used the approximations listed in {\sc table}~\ref{tab:elim}.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|}
+  \hline
+  \bf{BAC value} & \bf{Hours until sober}\\
+  \hline
+	0.016 & 1\\
+	0.05 & 3.75\\
+	0.08 & 5\\
+	0.10 & 6.25\\
+	0.16 & 10\\
+	0.20 & 12.5\\
+	0.24 & 15\\
+  \hline
+\end{tabular}
+\label{tab:elim}
+\end{table}
