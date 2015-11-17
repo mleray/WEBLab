@@ -1,0 +1,15 @@
+CREATE SEQUENCE public.drink_records_id_seq INCREMENT BY 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 CACHE 1;
+
+CREATE TABLE public.drink_records
+(
+  id INTEGER PRIMARY KEY NOT NULL DEFAULT nextval('drink_records_id_seq'::regclass),
+  user_id integer NOT NULL,
+  drink integer NOT NULL,
+  quantity integer DEFAULT 0,
+  CONSTRAINT drink_fk FOREIGN KEY (drink)
+  REFERENCES drinks (id) MATCH SIMPLE
+  ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT user_fk FOREIGN KEY (user_id)
+  REFERENCES users (id) MATCH SIMPLE
+  ON UPDATE NO ACTION ON DELETE NO ACTION
+);

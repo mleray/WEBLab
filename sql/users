@@ -1,0 +1,12 @@
+CREATE SEQUENCE public.users_id_seq INCREMENT BY 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 CACHE 1;
+
+CREATE TABLE public.users (
+  session_id CHARACTER(15) NOT NULL, -- ID of the session
+  weight INTEGER NOT NULL,
+  gender BOOLEAN,
+  name CHARACTER(64),
+  id INTEGER NOT NULL DEFAULT nextval('users_id_seq'::regclass)
+);
+CREATE UNIQUE INDEX session_id ON users USING BTREE (name);
+CREATE UNIQUE INDEX user_name ON users USING BTREE (id);
+COMMENT ON COLUMN public.users.session_id IS 'ID of the session';
