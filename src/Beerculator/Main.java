@@ -1,11 +1,20 @@
+package Beerculator;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Properties;
-
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
+@ManagedBean(name="maintest")
+@RequestScoped
 
 public class Main {
+	public String  check(){
+		return "It works";
+	}
+	
     public static HashMap<Integer, Drink> menu = new HashMap<>();
 
     public static void main(String[] args) throws SQLException {
