@@ -13,7 +13,7 @@
 	<managed-bean>
 		<managed-bean-name>main</managed-bean-name>
 		<managed-bean-class>Main</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
+		<managed-bean-scope>application</managed-bean-scope>
 	</managed-bean>
 
 </faces-config>

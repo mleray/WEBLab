@@ -2,20 +2,35 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-xmlns:h="http://java.sun.com/jsf/html">
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:f="http://java.sun.com/jsf/core">
 <h:head>
 <title>Beerculator</title>
-<?xml-stylesheet href="stylesheet.css" type="text/css"?>
+
+<h:outputStylesheet name="bootstrap.css" />
+<h:outputStylesheet name="stylesheet.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" />
+<h:outputScript name="bootstrap.js" />
 <meta http-equiv="refresh" content ="60" />
 </h:head>
+
 <h:body>
 	<div>
-		<!--  <h1>The current time is #{timeBean.time}</h1> -->
-		<h2></h2>
+		<h1>The current time is #{timeBean.time}</h1>
+		<h1>#{mainTest.testing()}</h1>
 		<h1>Beerculator</h1>
 
 		<h:form>
-
+			<h:panelGrid columns="2">
+				<h:outputLabel value="Enter Weight"/>
+				<h:inputText id="weightInputText"/>
+				<h:outputLabel>Gender </h:outputLabel>
+				<h:selectOneRadio id="genderSelectOneRadio">
+					<f:selectItem itemValue="Male" itemLabel="Male" />
+					<f:selectItem itemValue="Female" itemLabel="Female" />
+				</h:selectOneRadio>
+			</h:panelGrid>
+			
 		</h:form>
 	</div>
 </h:body>

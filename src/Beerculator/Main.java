@@ -5,12 +5,16 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Properties;
-/**import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 @ManagedBean(name="mainTest")
-@RequestScoped **/
+@RequestScoped
 
 public class Main {
+	public String testing (){
+		return "Testing works";
+	}
+	
     public static HashMap<Integer, Drink> menu = new HashMap<>();
 
     public static void main(String[] args) throws SQLException {

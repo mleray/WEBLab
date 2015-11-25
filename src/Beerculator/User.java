@@ -13,7 +13,7 @@ public class User {
     String session_id;
     String name;
     int weight;
-    Boolean gender; // true - male/ false - female
+    Boolean gender; // change to String
     HashMap<Integer, DrinkRecord> drink_records;
 
     public User(String name, int weight, Boolean gender) {
