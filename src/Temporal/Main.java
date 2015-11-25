@@ -1,16 +1,22 @@
-package Beerculator;
+package Temporal;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Properties;
-/**import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-@ManagedBean(name="mainTest")
-@RequestScoped **/
+@ManagedBean
+@RequestScoped
 
 public class Main {
+	public String  check(){
+		String text = "It works";
+		return text;
+	}
+}
+/**	
     public static HashMap<Integer, Drink> menu = new HashMap<>();
 
     public static void main(String[] args) throws SQLException {
@@ -40,4 +46,4 @@ public class Main {
         //save user back to database
         us.saveToDb(conn);
     }
-}
+} **/
