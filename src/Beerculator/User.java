@@ -8,6 +8,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
+@ManagedBean(name="user")
+@RequestScoped
 
 public class User {
     int id;

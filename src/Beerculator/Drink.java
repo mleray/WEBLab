@@ -4,6 +4,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
+@ManagedBean(name="drink")
+@RequestScoped
 
 public class Drink {
 
