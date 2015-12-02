@@ -1,7 +1,7 @@
+package Beerculator;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Iterator;
 
 public class DrinkRecord {
     int id;
@@ -95,6 +95,12 @@ public class DrinkRecord {
                 ", drink=" + drink.getId() +
                 ", user_id=" + user.getId();
     }
+
+    /* DrinkRecord getters */
+
+    public int getQuantity() { return this.quantity; }
+
+    public Drink getDrink() { return this.drink; }
 
     public String toStringValues() {
         return  "(" +

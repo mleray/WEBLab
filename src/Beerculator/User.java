@@ -1,3 +1,5 @@
+package Beerculator;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,10 +14,10 @@ public class User {
     String session_id;
     String name;
     int weight;
-    Boolean gender; // true - male/ false - female
+    String gender; // change to String
     HashMap<Integer, DrinkRecord> drink_records;
 
-    public User(String name, int weight, Boolean gender) {
+    public User(String name, int weight, String gender) {
         /**
          * Constructor for user that is not in the db yet
          */
@@ -82,6 +84,50 @@ public class User {
         return 0;
     }
 
+    public double getAmountOfAlcohol() {
+        /**
+         * Gets the amount of alcohol for the user from drink_records
+         */
+
+        double amount = 0;
+        int q;
+        Drink d;
+        Iterator<Integer> drinkIterator = drink_records.keySet().iterator();
+        while(drinkIterator.hasNext()){
+            Integer key = drinkIterator.next();
+            DrinkRecord dr = drink_records.get(key);
+            q = dr.getQuantity();
+            d = dr.getDrink();
+            amount += q * d.A();
+        }
+        return amount;
+    }
+
+    public double formula(double a) {
+        /**
+         * Widmark formula with user info and amount of alcohol
+         */
+        double ratio;
+        if (this.gender == "male") {
+            ratio = 0.7;
+        } else if (this.gender == "female") {
+            ratio = 0.55;
+        } else {
+            System.out.println("This gender does not exist");
+            ratio = -1;
+        }
+
+        return (a /(this.weight * ratio));
+    }
+
+    public double calculateBAC() {
+        /**
+         * Fully calculates the BAC value
+         */
+        double alc = this.getAmountOfAlcohol();
+        return formula(alc);
+    }
+
     public int getFromDb(Connection conn) throws SQLException {
         /**
          * loads user data from DB if it has session_id
@@ -103,7 +149,7 @@ public class User {
         this.id = result.getInt("id");
         this.name = result.getString("name").trim();
         this.weight = result.getInt("weight");
-        this.gender = result.getBoolean("gender");
+        this.gender = result.getString("gender");
 
         return 1;
     }
@@ -190,7 +236,7 @@ public class User {
         this.weight = weight;
     }
 
-    public void setGender(Boolean gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
@@ -222,7 +268,7 @@ public class User {
         return weight;
     }
 
-    public Boolean getGender() {
+    public String getGender() {
         return gender;
     }
     /* End of getters */

@@ -1,17 +1,16 @@
-import java.sql.ResultSet;
-import java.sql.Statement;
+package Beerculator;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.sql.Statement;
 import java.util.HashMap;
-import java.util.List;
 
 public class Drink {
 
     int id = 0;
     String name;
     int volume;
-    double alcohol;
+    double alcohol; // needs to be in percentage
 
     public Drink(String name, int volume, double alcohol) {
         this.name = name;
@@ -24,6 +23,13 @@ public class Drink {
         this.name = name;
         this.volume = volume;
         this.alcohol = alcohol;
+    }
+
+    public double A() {
+        /**
+         * Calculates the "A" value for the formula
+         */
+        return ((this.volume * this.alcohol * 0.8) / 100);
     }
 
     public Drink(int id, Connection conn) throws SQLException {
