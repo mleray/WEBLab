@@ -20,9 +20,10 @@ public class Main {
         menu = Drink.getDrinkList(conn);
 
         //create new user
-//        User us = new User("Peter Man", 75, true);
+        User us = new User("Peter Man", 75, true);
         //load user by session_id
-        User us = new User("0233279866", conn);
+
+//        User us = new User("0233279866", conn);
         conn.close();
 
         //update number of drinks
