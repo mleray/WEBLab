@@ -12,13 +12,30 @@ xmlns:f="http://java.sun.com/jsf/core">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" />
 <h:outputScript name="bootstrap.js" />
 <meta http-equiv="refresh" content ="60" />
+<style>
+	body{
+		background-color: orange;
+	}
+
+	h1{
+		text-align: center;
+		background-color: orange;
+		border-radius: 5px;
+		box-shadow: 1px;
+	}
+
+	#column1{
+		float: left;
+		height: 750px;
+	}
+</style>
 </h:head>
 
 <h:body>
-	<div>
+	<h1>Beerculator</h1>
+	<div id="column1">
 		<!-- <h1>The current time is #{timeBean.time}</h1> -->
 		<!-- <h1>#{mainTest.testing()}</h1> -->
-		<h1>Beerculator</h1>
 
 		<h:form>
 			<h:panelGrid columns="2">
@@ -29,9 +46,23 @@ xmlns:f="http://java.sun.com/jsf/core">
 					<f:selectItem itemValue="Male" itemLabel="Male" />
 					<f:selectItem itemValue="Female" itemLabel="Female" />
 				</h:selectOneRadio>
+				<button>Refresh User</button>
 			</h:panelGrid>
-			
+			<h:panelGrid>
+				<!-- Add dropdown menu with DB -->
+				<button>
+					Add Drink
+				</button>
+			</h:panelGrid>
 		</h:form>
+	</div>
+	<div>
+		<textarea rows="5" cols="30" id="text_here">
+			Modify this to include the beers
+		</textarea>
+		<button>
+			Calculate
+		</button>
 	</div>
 </h:body>
 </html>
