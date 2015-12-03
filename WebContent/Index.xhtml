@@ -6,11 +6,6 @@ xmlns:h="http://java.sun.com/jsf/html"
 xmlns:f="http://java.sun.com/jsf/core">
 <h:head>
 <title>Beerculator</title>
-
-<h:outputStylesheet name="bootstrap.css" />
-<h:outputStylesheet name="stylesheet.css" />
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" />
-<h:outputScript name="bootstrap.js" />
 <meta http-equiv="refresh" content ="60" />
 <style>
 	body{
@@ -20,13 +15,27 @@ xmlns:f="http://java.sun.com/jsf/core">
 	h1{
 		text-align: center;
 		background-color: orange;
-		border-radius: 5px;
-		box-shadow: 1px;
 	}
 
 	#column1{
+		padding-left: 10%;
 		float: left;
-		height: 750px;
+		border: 5px white;
+	}
+
+	#column2{
+		float: right;
+		border: 5px white;
+	}
+	
+	#text_here{
+		width: 100%;
+	}
+	
+	span{
+		margin-top: 25px;
+		font-size: 18pt;
+		font-weight: 3;
 	}
 </style>
 </h:head>
@@ -56,10 +65,11 @@ xmlns:f="http://java.sun.com/jsf/core">
 			</h:panelGrid>
 		</h:form>
 	</div>
-	<div>
+	<div id="column2">
 		<textarea rows="5" cols="30" id="text_here">
 			Modify this to include the beers
 		</textarea>
+		<span>0.00</span>
 		<button>
 			Calculate
 		</button>
