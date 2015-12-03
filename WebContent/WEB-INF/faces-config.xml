@@ -25,5 +25,10 @@
 		<managed-bean-class>Beerculator.Drink</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>drinkRecord</managed-bean-name>
+		<managed-bean-class>Beerculator.DrinkRecord</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
 
 </faces-config>
