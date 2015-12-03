@@ -2,6 +2,10 @@ package Beerculator;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
+@ManagedBean(name="drink_record")
+@RequestScoped
 
 public class DrinkRecord {
 	private int id;
