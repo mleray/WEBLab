@@ -107,21 +107,19 @@ public class User {
         return amount;
     }
 
-    public double formula(double a) {
+    public double formula(double a) throws GenderException {
         /**
          * Widmark formula with user info and amount of alcohol
          */
         double ratio;
+        try{
         if (this.gender == "male") {
             ratio = 0.7;
         } else if (this.gender == "female") {
             ratio = 0.55;
-        } else {
-            System.out.println("This gender does not exist");
-            ratio = -1;
         }
-
         return (a /(this.weight * ratio));
+        } catch (GenderException e){}
     }
 
     public double calculateBAC() {
@@ -132,13 +130,15 @@ public class User {
         return formula(alc);
     }
     
-    public double hoursUntilSober(double bac) {
+    public double hoursUntilSober(double bac) throws NegativeBACException {
     	/**
     	 * Gives the nb of hours before user is sober again
     	 */
     	double hours = 0;
     	if (bac < 0) { 
-    		System.out.println("the BAC value is negative, there must be a mistake");
+    		throw new NegativeBACException();
+    	} else if (bac == 0) {
+    		System.out.println("you are already sober!");
     	} else if (0 < bac && bac <= 0.016) {
     		hours = 1;
     	} else if (0.016 < bac && bac <= 0.05) {
