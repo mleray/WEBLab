@@ -64,6 +64,84 @@ xmlns:f="http://java.sun.com/jsf/core">
 			</h:panelGrid>
 			<h:panelGrid>
 				<!-- Add dropdown menu with DB -->
+				
+				
+
+
+
+
+
+				<!--  Maybe the solution??  -->
+				<select class="form-control" name="menu" id="menu">
+                                            <option value="${order.fbMenuId}" selected>${order.fbMenuName}</option>
+                                            <c:forEach var="menu" items="${menu}">
+                                                <option value="${menu.fbMenuId}">${menu.fbMenuName}</option>
+                                            </c:forEach>
+	
+				</select>
+				
+				
+				
+				<!-- Servlet -->
+				OrderDAO dao = new OrderDAO();
+				request.setAttribute("order", dao.getOrder(fbOrderId));
+				request.setAttribute("menu", dao.getMenu(restaurant));
+				
+				<!-- Some code for this example (getOrder and getMenu)
+				we need to change this for getDrinks. -->
+				
+				public OrderBean getOrder(Integer fbOrderId) {
+
+            OrderBean ob = new OrderBean();
+            try {
+                currentCon = ConnectionManager.getConnection();
+                Statement statement = currentCon.createStatement();
+                ResultSet rs = statement.executeQuery("SELECT fborders.fbMenuId, fbMenuName FROM fborders INNER JOIN fbmenu ON fborders.fbMenuId = fbmenu.fbMenuId WHERE fbOrderId='"+ fbOrderId + "'");
+
+                while (rs.next()) {
+                    ob.setFbMenuId(rs.getString("fbMenuId"));
+                    ob.setFbMenuName(rs.getString("fbMenuName"));
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            return ob;
+        }
+        
+			public ArrayList getMenu(String restaurant) {
+	
+	        ArrayList<OrderBean> am = new ArrayList<OrderBean>();
+	        try {
+	            currentCon = ConnectionManager.getConnection();
+	            Statement statement = currentCon.createStatement();
+	            ResultSet rs = statement
+	                    .executeQuery("SELECT fbMenuId, fbMenuName FROM fbmenu WHERE fbRestaurantId='"
+	                            + restaurant + "'");
+	
+	            while (rs.next()) {
+	                OrderBean ob = new OrderBean();
+	                ob.setFbMenuId(rs.getString("fbMenuId"));
+	                ob.setFbMenuName(rs.getString("fbMenuName"));
+	                am.add(ob);
+	            }
+	
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	
+		        return am;
+	    }
+							
+
+
+
+
+
+
+
+				
 				<button>
 					Add Drink
 				</button>
