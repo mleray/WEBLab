@@ -1,18 +1,23 @@
 package Beerculator;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.*;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-@ManagedBean(name="user")
-@RequestScoped
 
+
+@ManagedBean(name = "userBean")
+@RequestScoped
 public class User {
    private int id;
    private String session_id;
@@ -22,13 +27,45 @@ public class User {
    private double hoursDrinking;
    private  HashMap<Integer, DrinkRecord> drink_records;
 
+    @ManagedProperty("#{param.session_id}")
+    String session = "asdf";
+
+    public void setSession(String session) {
+        if (session == null) this.session = "15678";
+        else this.session = session;
+    }
+
+    public User() {
+        this.id = 0;
+        this.drink_records = new HashMap<>();
+    }
+
+    public String getSessionId() {
+        return this.session;
+    }
+
+    public ArrayList getDrinkTable() {
+        ArrayList<ArrayList<String>> drinkTable = new ArrayList<>();
+
+        for (Map.Entry<Integer, DrinkRecord> dr : drink_records.entrySet()) {
+            if (this.drink_records.containsKey(dr.getKey())) {
+                ArrayList<String> tmpList = new ArrayList<>();
+                tmpList.add(dr.getValue().drink.name);
+                tmpList.add(String.valueOf(dr.getValue().quantity));
+                drinkTable.add(tmpList);
+            }
+        }
+        System.out.println(drinkTable);
+        return drinkTable;
+    }
+
     public User(String name, int weight, String gender) {
         /**
          * Constructor for user that is not in the db yet
          */
         this.name = name;
         String session_id = "" + Math.abs(Objects.toString(System.currentTimeMillis()).hashCode());
-        this.session_id = "" + session_id.substring(session_id.length()-9, session_id.length()-1);
+        this.session_id = "" + session_id.substring(session_id.length() - 9, session_id.length() - 1);
         this.weight = weight;
         this.gender = gender;
         this.drink_records = new HashMap<>();
@@ -82,9 +119,9 @@ public class User {
         ResultSet result = stmt.executeQuery(cmd);
         while (result.next()) {
             this.drink_records.put(result.getInt("drink"), new DrinkRecord(result.getInt("id"),
-                                                                        result.getInt("quantity"),
-                                                                        result.getInt("drink"),
-                                                                        this, conn));
+                    result.getInt("quantity"),
+                    result.getInt("drink"),
+                    this, conn));
         }
         return 0;
     }
@@ -98,7 +135,7 @@ public class User {
         int q;
         Drink d;
         Iterator<Integer> drinkIterator = drink_records.keySet().iterator();
-        while(drinkIterator.hasNext()){
+        while (drinkIterator.hasNext()) {
             Integer key = drinkIterator.next();
             DrinkRecord dr = drink_records.get(key);
             q = dr.getQuantity();
@@ -161,9 +198,9 @@ public class User {
          * loads user data from DB if it has session_id
          */
         String cmd;
-        if(this.session_id != null) {
+        if (this.session_id != null) {
             cmd = "SELECT id, name, weight, gender FROM users WHERE session_id='" + this.session_id + "';";
-        }else {
+        } else {
             cmd = "SELECT id, name, weight, gender FROM users WHERE name='" + this.name + "';";
         }
 //        System.out.println(cmd);
@@ -191,7 +228,7 @@ public class User {
         } else {
             this.updateDb(conn);
         }
-        for(Map.Entry<Integer, DrinkRecord> drinkRecord : this.drink_records.entrySet()){
+        for (Map.Entry<Integer, DrinkRecord> drinkRecord : this.drink_records.entrySet()) {
             drinkRecord.getValue().saveToDb(conn);
         }
 
@@ -200,7 +237,7 @@ public class User {
     public int updateDb(Connection conn) throws SQLException {
         /**
          * updates row in the for this drink
-        */
+         */
         Statement stmt = conn.createStatement();
 
         if (this.id == 0) {
@@ -268,12 +305,12 @@ public class User {
         this.gender = gender;
     }
 
-    public void setDrinkQuantity(Drink drink, int quantity){
+    public void setDrinkQuantity(Drink drink, int quantity) {
         /**
          * Sets quantity of drink record of user by id of the drink
          * If the drink record does not exist yet it is created
          **/
-        if(this.drink_records.containsKey(drink.getId())) {
+        if (this.drink_records.containsKey(drink.getId())) {
             this.drink_records.get(drink.getId()).setQuantity(quantity);
         }else{
             this.drink_records.put(drink.getId(), new DrinkRecord(this, drink, quantity));
