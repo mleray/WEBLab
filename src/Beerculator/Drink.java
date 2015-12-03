@@ -13,8 +13,8 @@ public class Drink {
 
     int id = 0;
     String name;
-    int volume;
-    double alcohol; // needs to be in percentage
+    int volume; // must be in ml
+    double alcohol; // must be in percentage
 
     public Drink(String name, int volume, double alcohol) {
         this.name = name;

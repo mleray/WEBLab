@@ -17,8 +17,8 @@ public class User {
     int id;
     String session_id;
     String name;
-    int weight;
-    String gender; // change to String
+    int weight; // must be in kilogramms
+    String gender; 
     HashMap<Integer, DrinkRecord> drink_records;
 
     public User(String name, int weight, String gender) {
