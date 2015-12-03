@@ -4,42 +4,49 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
 <f:metadata>
-    <param name="session_id" value="#{session}"/>
+    <param name="session_id" value="#{userBean.session_id}"/>
+    <!--<c:if test="${not empty userBean.session_id}" >-->
+    <f:event type="preRenderView" listener="#{userBean.initializeUser()}"/>
+    <!--</c:if>-->
 </f:metadata>
-<f:view>
-    <h:outputLabel value="Hello, world"/>
-</f:view>
 
 <h:body>
     <div>
         <!-- <h1>The current time is #{timeBean.time}</h1> -->
         <!-- <h1>#{mainTest.testing()}</h1> -->
         <h1>Beerculator</h1>
-        #{userBean.getSessionId()}
+
+        <h:form>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="Enter Name"/>
+                    <h:inputText value="#{userBean.getName()}"/>
+                    <h:outputLabel value="Enter Weight"/>
+                    <h:inputText id="weightInputText" value=""/>
+                    <h:outputLabel>Gender </h:outputLabel>
+                    <h:selectOneRadio id="genderSelectOneRadio">
+                        <f:selectItem itemValue="Male" itemLabel="Male"/>
+                        <f:selectItem itemValue="Female" itemLabel="Female"/>
+                    </h:selectOneRadio>
+                </h:panelGrid>
+
+            </h:form>
+
+        </h:form>
+
         <table>
             <ui:repeat value="#{userBean.getDrinkTable()}" var="row">
                 <tr>
-                    <td>#{row[0]}</td>
-                    <td>#{row[1]}</td>
-                    <td>#{row[2]}</td>
+                    <h:form>
+                        <td>#{row[0]}</td>
+                        <td><h:inputText value="#{row[1]}"/></td>
+                    </h:form>
                 </tr>
             </ui:repeat>
         </table>
-
-        <h:form>
-            <h:panelGrid columns="2">
-                <h:outputLabel value="Enter Weight"/>
-                <h:inputText id="weightInputText" value=""/>
-                <h:outputLabel>Gender </h:outputLabel>
-                <h:selectOneRadio id="genderSelectOneRadio">
-                    <f:selectItem itemValue="Male" itemLabel="Male"/>
-                    <f:selectItem itemValue="Female" itemLabel="Female"/>
-                </h:selectOneRadio>
-            </h:panelGrid>
-
-        </h:form>
     </div>
 </h:body>
 

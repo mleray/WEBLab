@@ -27,6 +27,7 @@ public class DrinkRecord {
         this.quantity = quantity;
     }
 
+
     public DrinkRecord(int id, int quantity, int drink, User user, Connection conn) throws SQLException {
         /**
          * constructor of DrinkRecord using drink_id -> loads the drink from DB
@@ -90,6 +91,10 @@ public class DrinkRecord {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     /* End of setters */
