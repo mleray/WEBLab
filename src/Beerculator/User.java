@@ -126,10 +126,33 @@ public class User {
 
     public double calculateBAC() {
         /**
-         * Fully calculates the BAC value
+         * Calculates the BAC value according to user data and drinks
          */
         double alc = this.getAmountOfAlcohol();
         return formula(alc);
+    }
+    
+    public double hoursUntilSober(double bac) {
+    	/**
+    	 * Gives the nb of hours before user is sober again
+    	 */
+    	double hours = 0;
+    	if (bac < 0) { 
+    		System.out.println("the BAC value is negative, there must be a mistake");
+    	} else if (0 < bac && bac <= 0.016) {
+    		hours = 1;
+    	} else if (0.016 < bac && bac <= 0.05) {
+    		hours = 3.75;
+    	} else if (0.05 < bac && bac <= 0.08) {
+    		hours = 5;
+    	} else if (0.08 < bac && bac <= 0.1) {
+    		hours = 6.25;
+    	} else if (0.1 < bac && bac <= 0.16) {
+    		hours = 10;
+    	} else if (0.16 < bac && bac <= 0.2) {
+    		hours = 12.5;
+    	} else { hours = 15; }
+    	return hours;
     }
 
     public int getFromDb(Connection conn) throws SQLException {
