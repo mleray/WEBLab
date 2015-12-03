@@ -14,7 +14,6 @@ public class Main {
 	public String testing (){
 		return "Testing works";
 	}
-	
     public static HashMap<Integer, Drink> menu = new HashMap<>();
 
     public static void main(String[] args) throws SQLException {

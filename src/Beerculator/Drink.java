@@ -4,20 +4,24 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
+@ManagedBean(name="drink")
+@RequestScoped
 
 public class Drink {
 
-    int id = 0;
-    String name;
-    int volume;
-    double alcohol; // needs to be in percentage
+  private  int id = 0;
+  private String name;
+  private   int volume; // must be in ml
+  private double alcohol; // must be in percentage
 
     public Drink(String name, int volume, double alcohol) {
         this.name = name;
         this.volume = volume;
         this.alcohol = alcohol;
     }
-
+    
     public Drink(int id, String name, int volume, double alcohol) {
         this.id = id;
         this.name = name;

@@ -8,14 +8,19 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
+@ManagedBean(name="user")
+@RequestScoped
 
 public class User {
-    int id;
-    String session_id;
-    String name;
-    int weight;
-    String gender; // change to String
-    HashMap<Integer, DrinkRecord> drink_records;
+   private int id;
+   private String session_id;
+   private String name;
+   private int weight; // must be in kilogramms
+   private String gender;
+   private double hoursDrinking;
+   private  HashMap<Integer, DrinkRecord> drink_records;
 
     public User(String name, int weight, String gender) {
         /**
@@ -103,29 +108,52 @@ public class User {
         return amount;
     }
 
-    public double formula(double a) {
+    public double formula(double a) throws GenderException {
         /**
          * Widmark formula with user info and amount of alcohol
          */
         double ratio;
+        try{
         if (this.gender == "male") {
             ratio = 0.7;
         } else if (this.gender == "female") {
             ratio = 0.55;
-        } else {
-            System.out.println("This gender does not exist");
-            ratio = -1;
         }
-
-        return (a /(this.weight * ratio));
+        return (a /(this.weight * ratio)) - 0.015*this.hoursDrinking;
+        } catch (GenderException e){}
     }
 
     public double calculateBAC() {
         /**
-         * Fully calculates the BAC value
+         * Calculates the BAC value according to user data and drinks
          */
         double alc = this.getAmountOfAlcohol();
         return formula(alc);
+    }
+    
+    public double hoursUntilSober(double bac) throws NegativeBACException {
+    	/**
+    	 * Gives the nb of hours before user is sober again
+    	 */
+    	double hours = 0;
+    	if (bac < 0) { 
+    		throw new NegativeBACException();
+    	} else if (bac == 0) {
+    		System.out.println("you are already sober!");
+    	} else if (0 < bac && bac <= 0.016) {
+    		hours = 1;
+    	} else if (0.016 < bac && bac <= 0.05) {
+    		hours = 3.75;
+    	} else if (0.05 < bac && bac <= 0.08) {
+    		hours = 5;
+    	} else if (0.08 < bac && bac <= 0.1) {
+    		hours = 6.25;
+    	} else if (0.1 < bac && bac <= 0.16) {
+    		hours = 10;
+    	} else if (0.16 < bac && bac <= 0.2) {
+    		hours = 12.5;
+    	} else { hours = 15; }
+    	return hours;
     }
 
     public int getFromDb(Connection conn) throws SQLException {
@@ -248,7 +276,7 @@ public class User {
         if(this.drink_records.containsKey(drink.getId())) {
             this.drink_records.get(drink.getId()).setQuantity(quantity);
         }else{
-            this.drink_records.put(drink.id, new DrinkRecord(this, drink, quantity));
+            this.drink_records.put(drink.getId(), new DrinkRecord(this, drink, quantity));
         }
 
     }
