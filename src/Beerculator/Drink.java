@@ -21,7 +21,7 @@ public class Drink {
         this.volume = volume;
         this.alcohol = alcohol;
     }
-
+    
     public Drink(int id, String name, int volume, double alcohol) {
         this.id = id;
         this.name = name;
