@@ -4,13 +4,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DrinkRecord {
-    int id;
-    int quantity = 0;
-    Drink drink;
-    User user;
+	private int id;
+    private int quantity = 0;
+    private Drink drink;
+    private User user;
 
     public DrinkRecord(User user, Drink drink) {
         this.user = user;
+        this.drink = drink;
     }
 
     public DrinkRecord(User user, Drink drink, int quantity) {
