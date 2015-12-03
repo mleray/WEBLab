@@ -4,12 +4,12 @@
 \subsection{Needed informations}
 \label{ssec:info} 
 
-In order to calculate the user's blood alcohol concentration (BAC), we need a few informations about him and about his drinking. More precisely, we need the elements listed below :
+In order to calculate the user's blood alcohol concentration (BAC), we need a few informations about him and about his drinking. More precisely, we need the elements listed below:
 
 \begin{itemize}
-\item Gender (M/F) ;
-\item Weight ;
-\item Number of hours since the drinking began ; 
+\item Gender (M/F);
+\item Weight;
+\item Number of hours since the drinking began; 
 \item Amount of alcohol.
 \end{itemize}
 
@@ -19,28 +19,29 @@ In order to calculate the user's blood alcohol concentration (BAC), we need a fe
 To calculate the blood alcohol concentration, we will use the Widmark formula, which is the following:
 
 \begin{equation}
-   BAC = A \div (R \times M)
+   BAC = A \div (R \times M) - 0.015 \times H
 \end{equation}
    
-In this formula, we have :
+In this formula, we have:
 
 \begin{itemize} 
-\item BAC : Blood Alcohol Concentration ;
-\item A : Alcohol ingested, in grams ;
-\item R : Ratio (0.70 for men, 0.55 for women) ;
-\item M : Body weight, in kilograms.
+\item BAC : Blood Alcohol Concentration;
+\item A : Alcohol ingested, in grams;
+\item R : Ratio (0.70 for men, 0.55 for women);
+\item M : Body weight, in kilograms;
+\item H : Number of hours since the drinking began.
 \end{itemize}
 
-To obtain the value of A, we use this formula :
+To obtain the value of A, we use this formula:
 
 \begin{equation}
    A = (V \times P \times 0.8) \div 100
 \end{equation}
 
-In this formula, we have :
+In this formula, we have:
 
 \begin{itemize}
-\item V : Volume of alcohol in c.c ;
+\item V : Volume of alcohol in milliliters;
 \item P : Alcohol degree, in percentage.
 \end{itemize}
 

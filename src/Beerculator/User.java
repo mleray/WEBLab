@@ -18,7 +18,8 @@ public class User {
    private String session_id;
    private String name;
    private int weight; // must be in kilogramms
-   private String gender; 
+   private String gender;
+   private double hoursDrinking;
    private  HashMap<Integer, DrinkRecord> drink_records;
 
     public User(String name, int weight, String gender) {
@@ -118,7 +119,7 @@ public class User {
         } else if (this.gender == "female") {
             ratio = 0.55;
         }
-        return (a /(this.weight * ratio));
+        return (a /(this.weight * ratio)) - 0.015*this.hoursDrinking;
         } catch (GenderException e){}
     }
 
