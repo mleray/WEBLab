@@ -275,7 +275,7 @@ public class User {
         if(this.drink_records.containsKey(drink.getId())) {
             this.drink_records.get(drink.getId()).setQuantity(quantity);
         }else{
-            this.drink_records.put(drink.id, new DrinkRecord(this, drink, quantity));
+            this.drink_records.put(drink.getId(), new DrinkRecord(this, drink, quantity));
         }
 
     }
