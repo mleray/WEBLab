@@ -1,0 +1,12 @@
+INSERT INTO DRINKS (name, volume, alcohol) VALUES('Vodka',45,33.5);
+INSERT INTO DRINKS (name, volume, alcohol) VALUES('Ginebra',45,31.6);
+INSERT INTO DRINKS (name, volume, alcohol) VALUES('Tequila',45,38);
+INSERT INTO DRINKS (name, volume, alcohol) VALUES('Ron',45,45.4);
+INSERT INTO DRINKS (name, volume, alcohol) VALUES('Whisky',45,35.2);
+INSERT INTO DRINKS (name, volume, alcohol) VALUES('Jägermeister',45,35);
+INSERT INTO DRINKS (name, volume, alcohol) VALUES('Mezcal',45,55);
+INSERT INTO DRINKS (name, volume, alcohol) VALUES('Absenta',30,70);
+INSERT INTO DRINKS (name, volume, alcohol) VALUES('Cognac',45,33.1);
+INSERT INTO DRINKS (name, volume, alcohol) VALUES('Beer',200,7);
+INSERT INTO DRINKS (name, volume, alcohol) VALUES('Wine',75,12);
+INSERT INTO DRINKS (name, volume, alcohol) VALUES('Champagne',100,13);
