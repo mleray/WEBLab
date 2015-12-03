@@ -45,9 +45,13 @@ xmlns:f="http://java.sun.com/jsf/core">
 	<div id="column1">
 		<!-- <h1>The current time is #{timeBean.time}</h1> -->
 		<!-- <h1>#{mainTest.testing()}</h1> -->
-
+	
+	
+	<!-- Form to create the user -->
 		<h:form>
 			<h:panelGrid columns="2">
+				<h: outputLabel value= "Enter name"/>
+				<h: inputText id="NameInputText"/>
 				<h:outputLabel value="Enter Weight"/>
 				<h:inputText id="weightInputText"/>
 				<h:outputLabel>Gender </h:outputLabel>
@@ -56,9 +60,88 @@ xmlns:f="http://java.sun.com/jsf/core">
 					<f:selectItem itemValue="Female" itemLabel="Female" />
 				</h:selectOneRadio>
 				<button>Refresh User</button>
+			
 			</h:panelGrid>
 			<h:panelGrid>
 				<!-- Add dropdown menu with DB -->
+				
+				
+
+
+
+
+
+				<!--  Maybe the solution??  -->
+				<select class="form-control" name="menu" id="menu">
+                                            <option value="${order.fbMenuId}" selected>${order.fbMenuName}</option>
+                                            <c:forEach var="menu" items="${menu}">
+                                                <option value="${menu.fbMenuId}">${menu.fbMenuName}</option>
+                                            </c:forEach>
+	
+				</select>
+				
+				
+				
+				<!-- Servlet -->
+				OrderDAO dao = new OrderDAO();
+				request.setAttribute("order", dao.getOrder(fbOrderId));
+				request.setAttribute("menu", dao.getMenu(restaurant));
+				
+				<!-- Some code for this example (getOrder and getMenu)
+				we need to change this for getDrinks. -->
+				
+				public OrderBean getOrder(Integer fbOrderId) {
+
+            OrderBean ob = new OrderBean();
+            try {
+                currentCon = ConnectionManager.getConnection();
+                Statement statement = currentCon.createStatement();
+                ResultSet rs = statement.executeQuery("SELECT fborders.fbMenuId, fbMenuName FROM fborders INNER JOIN fbmenu ON fborders.fbMenuId = fbmenu.fbMenuId WHERE fbOrderId='"+ fbOrderId + "'");
+
+                while (rs.next()) {
+                    ob.setFbMenuId(rs.getString("fbMenuId"));
+                    ob.setFbMenuName(rs.getString("fbMenuName"));
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            return ob;
+        }
+        
+			public ArrayList getMenu(String restaurant) {
+	
+	        ArrayList<OrderBean> am = new ArrayList<OrderBean>();
+	        try {
+	            currentCon = ConnectionManager.getConnection();
+	            Statement statement = currentCon.createStatement();
+	            ResultSet rs = statement
+	                    .executeQuery("SELECT fbMenuId, fbMenuName FROM fbmenu WHERE fbRestaurantId='"
+	                            + restaurant + "'");
+	
+	            while (rs.next()) {
+	                OrderBean ob = new OrderBean();
+	                ob.setFbMenuId(rs.getString("fbMenuId"));
+	                ob.setFbMenuName(rs.getString("fbMenuName"));
+	                am.add(ob);
+	            }
+	
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	
+		        return am;
+	    }
+							
+
+
+
+
+
+
+
+				
 				<button>
 					Add Drink
 				</button>
@@ -69,6 +152,10 @@ xmlns:f="http://java.sun.com/jsf/core">
 		<textarea rows="5" cols="30" id="text_here">
 			Modify this to include the beers
 		</textarea>
+		
+		<!-- Create the user -->
+		<h1>#{user.user(name,weight,gender)}</h1>
+		
 		<span>0.00</span>
 		<button>
 			Calculate
@@ -76,3 +163,5 @@ xmlns:f="http://java.sun.com/jsf/core">
 	</div>
 </h:body>
 </html>
+
+
