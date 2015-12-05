@@ -1,15 +1,12 @@
 package Beerculator;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
-@ManagedBean(name="drink_record")
-@RequestScoped
 
 public class DrinkRecord {
-	private int id;
-    private int quantity = 0;
+    private int id;
+    private int quantity;
     private Drink drink;
     private User user;
 
@@ -26,7 +23,6 @@ public class DrinkRecord {
         this.drink = drink;
         this.quantity = quantity;
     }
-
 
     public DrinkRecord(int id, int quantity, int drink, User user, Connection conn) throws SQLException {
         /**
@@ -89,18 +85,25 @@ public class DrinkRecord {
 
     /* DrinkRecord setters */
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void increment() {
+        ++this.quantity;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void decrement() {
+        if (this.quantity > 0) {
+            --this.quantity;
+        }
+    }
+
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     /* End of setters */
     @Override
     public String toString() {
-        return  "id=" + id +
+        return "id=" + id +
                 ", quantity=" + quantity +
                 ", drink=" + drink.getId() +
                 ", user_id=" + user.getId();
@@ -108,15 +111,23 @@ public class DrinkRecord {
 
     /* DrinkRecord getters */
 
-    public int getQuantity() { return this.quantity; }
+    public int getQuantity() {
+        return this.quantity;
+    }
 
-    public Drink getDrink() { return this.drink; }
+    public Drink getDrink() {
+        return this.drink;
+    }
 
     public String toStringValues() {
-        return  "(" +
+        return "(" +
                 quantity + ", " +
                 drink.getId() + ", " +
                 user.getId() +
                 ")";
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

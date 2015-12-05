@@ -1,64 +1,77 @@
 package Beerculator;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import java.sql.*;
 import java.util.*;
 
 @ManagedBean(name = "userBean")
-@RequestScoped
+@SessionScoped
 public class User {
     private int id;
 
-    @ManagedProperty("#{param.session_id}")
+    //    @ManagedProperty("#{param.session_id}")
     private String session_id;
-
     private String name;
     private int weight;
     private String gender; // change to String
     private HashMap<Integer, DrinkRecord> drink_records;
 
+    private double BAC = 0;
+
+    public ArrayList<Integer> getDrinkRecordsKeys() {
+        ArrayList<Integer> dRKEys = new ArrayList<>();
+        dRKEys.addAll(this.drink_records.keySet());
+        return dRKEys;
+    }
+
+    @PostConstruct
+    public void init() {
+        if (this.session_id == null) {
+            this.drink_records = new HashMap<>();
+        }
+        String url = "jdbc:postgresql://localhost:5432/beerculator";
+
+        Properties props = new Properties();
+        props.setProperty("user", "beerculator_admin");
+        props.setProperty("password", "beer");
+        Connection conn;
+        try {
+            conn = DriverManager.getConnection(url, props);
+            this.loadDrinkRecords(conn);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     public void setSession_id(String session_id) {
         this.session_id = session_id;
     }
 
-    public User() {
-        this.drink_records = new HashMap<>();
-    }
-
-    public void initializeUser() throws SQLException {
+    public void initialize(String session_id) throws SQLException {
         String url = "jdbc:postgresql://localhost:5432/beerculator";
 
         Properties props = new Properties();
-        props.setProperty("user","beerculator_admin");
+        props.setProperty("user", "beerculator_admin");
         props.setProperty("password", "beer");
         Connection conn = DriverManager.getConnection(url, props);
-        if(this.session_id != null){
-            this.getFromDb(conn);
-        }
 
-        this.loadDrinkRecords(conn);
+        if (!session_id.equals("") || this.session_id != null) {
+            if(!session_id.equals("")) {
+                this.session_id = session_id;
+            }
+            this.getFromDb(conn);
+        } else {
+            this.setNewSessionID();
+        }
     }
 
-    public ArrayList getDrinkTable() {
-        /**
-         * returns list of drinks as a 2D table in format:
-         *  _________________________
-         * |name of drink | quantity |
-         * |______________|__________|
-         */
-        ArrayList<ArrayList<String>> drinkTable = new ArrayList<>();
-        for (Map.Entry<Integer, DrinkRecord> dr : this.drink_records.entrySet()) {
-            if (this.drink_records.containsKey(dr.getKey())) {
-                ArrayList<String> tmpList = new ArrayList<>();
-                tmpList.add(dr.getValue().getDrink().getName());
-                tmpList.add(String.valueOf(dr.getValue().getQuantity()));
-                drinkTable.add(tmpList);
-            }
-        }
-        return drinkTable;
+    public User() {
     }
 
     public User(String name, int weight, String gender) {
@@ -66,14 +79,18 @@ public class User {
          * Constructor for user that is not in the db yet
          */
         this.name = name;
-        String session_id = "" + Math.abs(Objects.toString(System.currentTimeMillis()).hashCode());
-        this.session_id = "" + session_id.substring(session_id.length() - 9, session_id.length() - 1);
+        this.setNewSessionID();
         this.weight = weight;
         this.gender = gender;
         this.drink_records = new HashMap<>();
 
+
     }
 
+    public void setNewSessionID() {
+        String session_id = "" + Math.abs(Objects.toString(System.currentTimeMillis()).hashCode());
+        this.session_id = "" + session_id.substring(session_id.length() - 9, session_id.length() - 1);
+    }
 //    public User(String session_id, Connection conn) throws SQLException {
 //        /**
 //         * Constructor for user using the session_id
@@ -127,7 +144,7 @@ public class User {
         Statement stmt = conn.createStatement();
         ResultSet result = stmt.executeQuery(cmd);
         while (result.next()) {
-            this.drink_records.get(result.getInt("drink")).setQuantity(result.getInt("quantity")) ;
+            this.drink_records.get(result.getInt("drink")).setQuantity(result.getInt("quantity"));
             this.drink_records.get(result.getInt("drink")).setId(result.getInt("id"));
         }
         return 0;
@@ -174,7 +191,8 @@ public class User {
          * Fully calculates the BAC value
          */
         double alc = this.getAmountOfAlcohol();
-        return formula(alc);
+        this.BAC = formula(alc);
+        return this.BAC;
     }
 
     public int getFromDb(Connection conn) throws SQLException {
@@ -203,6 +221,16 @@ public class User {
         return 1;
     }
 
+    public void saveToDb() throws SQLException {
+        String url = "jdbc:postgresql://localhost:5432/beerculator";
+
+        Properties props = new Properties();
+        props.setProperty("user", "beerculator_admin");
+        props.setProperty("password", "beer");
+        Connection conn = DriverManager.getConnection(url, props);
+        this.saveToDb(conn);
+    }
+
     public void saveToDb(Connection conn) throws SQLException {
         /**
          * saves user and relevant drinkRecords to db, depending on whether it already exists inserts new row or just updates current one.
@@ -213,7 +241,9 @@ public class User {
             this.updateDb(conn);
         }
         for (Map.Entry<Integer, DrinkRecord> drinkRecord : this.drink_records.entrySet()) {
-            drinkRecord.getValue().saveToDb(conn);
+            if (drinkRecord.getValue().getQuantity() > 0) {
+                drinkRecord.getValue().saveToDb(conn);
+            }
         }
 
     }
@@ -278,7 +308,6 @@ public class User {
     }
 
 
-
     public void setWeight(int weight) {
         this.weight = weight;
     }
@@ -300,9 +329,17 @@ public class User {
 
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     /* End of setters */
 
     /* User getters */
+
+    public HashMap<Integer, DrinkRecord> getDrink_records() {
+        return drink_records;
+    }
 
     public String getName() {
         return name;
@@ -323,6 +360,11 @@ public class User {
     public String getGender() {
         return gender;
     }
+
+    public double getBAC() {
+        return BAC;
+    }
+
     /* End of getters */
 
 }
