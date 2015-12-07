@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/W32TeX) (preloaded format=pdflatex 2015.11.6)  13 NOV 2015 18:11
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/W32TeX) (preloaded format=pdflatex 2015.11.6)  7 DEC 2015 20:05
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -625,43 +625,51 @@ Package: setspace 2011/12/19 v6.7a set line spacing
 Package: eurosym 1998/08/06 v1.1 European currency symbol ``Euro''
 \@eurobox=\box33
 )
+(c:/texlive/2015/texmf-dist/tex/latex/enumitem/enumitem.sty
+Package: enumitem 2011/09/28 v3.5.2 Customized lists
+\labelindent=\skip51
+\enit@outerparindent=\dimen138
+\enit@toks=\toks28
+\enit@inbox=\box34
+\enitdp@description=\count129
+)
    defining Unicode char U+20AC (decimal 8364)
-Package hyperref Info: Option `colorlinks' set `true' on input line 28.
+Package hyperref Info: Option `colorlinks' set `true' on input line 29.
  (./main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Try loading font information for T1+lmr on input line 30.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Try loading font information for T1+lmr on input line 31.
 
 (c:/texlive/2015/texmf-dist/tex/latex/lm/t1lmr.fd
 File: t1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 (c:/texlive/2015/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count129
-\scratchdimen=\dimen138
-\scratchbox=\box34
-\nofMPsegments=\count130
-\nofMParguments=\count131
-\everyMPshowfont=\toks28
-\MPscratchCnt=\count132
-\MPscratchDim=\dimen139
-\MPnumerator=\count133
-\makeMPintoPDFobject=\count134
-\everyMPtoPDFconversion=\toks29
+\scratchcounter=\count130
+\scratchdimen=\dimen139
+\scratchbox=\box35
+\nofMPsegments=\count131
+\nofMParguments=\count132
+\everyMPshowfont=\toks29
+\MPscratchCnt=\count133
+\MPscratchDim=\dimen140
+\MPnumerator=\count134
+\makeMPintoPDFobject=\count135
+\everyMPtoPDFconversion=\toks30
 ) (c:/texlive/2015/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
 
@@ -711,7 +719,7 @@ e
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-\c@lstlisting=\count135
+\c@lstlisting=\count136
 (c:/texlive/2015/texmf-dist/tex/latex/ms/ragged2e.sty
 Package: ragged2e 2009/05/21 v2.1 ragged2e Package (MS)
 
@@ -721,22 +729,22 @@ Package: everysel 2011/10/28 v1.2 EverySelectfont Package (MS)
 ABD: EverySelectfont initializing macros
 LaTeX Info: Redefining \selectfont on input line 126.
 )
-\CenteringLeftskip=\skip51
-\RaggedLeftLeftskip=\skip52
-\RaggedRightLeftskip=\skip53
-\CenteringRightskip=\skip54
-\RaggedLeftRightskip=\skip55
-\RaggedRightRightskip=\skip56
-\CenteringParfillskip=\skip57
-\RaggedLeftParfillskip=\skip58
-\RaggedRightParfillskip=\skip59
-\JustifyingParfillskip=\skip60
-\CenteringParindent=\skip61
-\RaggedLeftParindent=\skip62
-\RaggedRightParindent=\skip63
-\JustifyingParindent=\skip64
+\CenteringLeftskip=\skip52
+\RaggedLeftLeftskip=\skip53
+\RaggedRightLeftskip=\skip54
+\CenteringRightskip=\skip55
+\RaggedLeftRightskip=\skip56
+\RaggedRightRightskip=\skip57
+\CenteringParfillskip=\skip58
+\RaggedLeftParfillskip=\skip59
+\RaggedRightParfillskip=\skip60
+\JustifyingParfillskip=\skip61
+\CenteringParindent=\skip62
+\RaggedLeftParindent=\skip63
+\RaggedRightParindent=\skip64
+\JustifyingParindent=\skip65
 )
-\AtBeginShipoutBox=\box35
+\AtBeginShipoutBox=\box36
 
 (c:/texlive/2015/texmf-dist/tex/latex/graphics/color.sty
 Package: color 2014/10/28 v1.1a Standard LaTeX Color (DPC)
@@ -746,7 +754,7 @@ File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
 )
 Package color Info: Driver file: pdftex.def on input line 142.
 )
-Package hyperref Info: Link coloring ON on input line 30.
+Package hyperref Info: Link coloring ON on input line 31.
 
 (c:/texlive/2015/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
@@ -754,43 +762,43 @@ Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 (c:/texlive/2015/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
-\c@section@level=\count136
+\c@section@level=\count137
 )
-LaTeX Info: Redefining \ref on input line 30.
-LaTeX Info: Redefining \pageref on input line 30.
-LaTeX Info: Redefining \nameref on input line 30.
+LaTeX Info: Redefining \ref on input line 31.
+LaTeX Info: Redefining \pageref on input line 31.
+LaTeX Info: Redefining \nameref on input line 31.
 
 (./main.out) (./main.out)
 \@outlinefile=\write3
 \openout3 = `main.out'.
 
-LaTeX Font Info:    Try loading font information for OT1+lmr on input line 56.
+LaTeX Font Info:    Try loading font information for OT1+lmr on input line 57.
  (c:/texlive/2015/texmf-dist/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OML+lmm on input line 56.
+LaTeX Font Info:    Try loading font information for OML+lmm on input line 57.
 
 (c:/texlive/2015/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 56.
+LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 57.
 
 
 (c:/texlive/2015/texmf-dist/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMX+lmex on input line 56.
+LaTeX Font Info:    Try loading font information for OMX+lmex on input line 57.
 
 
 (c:/texlive/2015/texmf-dist/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 56.
+(Font)              <10> on input line 57.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 56.
+(Font)              <7> on input line 57.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 56.
+(Font)              <5> on input line 57.
  [1
 
 {c:/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] (./main.toc)
@@ -801,54 +809,156 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.74     \newpage
-                  [1] (./input/intro.tex) [2] (./input/req.tex
+l.75     \newpage
+                  [1] (./input/intro.tex
 Underfull \hbox (badness 10000) in paragraph at lines 4--5
 
  []
 
-) [3] (./input/spec.tex
+<./figures/drinks.jpg, id=114, 337.26pt x 229.60782pt>
+File: ./figures/drinks.jpg Graphic file (type jpg)
+
+<use ./figures/drinks.jpg>
+Package pdftex.def Info: ./figures/drinks.jpg used on input line 12.
+(pdftex.def)             Requested size: 337.25917pt x 229.60725pt.
+) [2 <./figures/drinks.jpg>] (./input/req.tex
+Underfull \hbox (badness 10000) in paragraph at lines 4--5
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 6--7
+
+ []
+
+<./figures/UseCase.png, id=120, 420.06938pt x 410.2828pt>
+File: ./figures/UseCase.png Graphic file (type png)
+
+<use ./figures/UseCase.png>
+Package pdftex.def Info: ./figures/UseCase.png used on input line 10.
+(pdftex.def)             Requested size: 336.05597pt x 328.22668pt.
+) [3 <./figures/UseCase.png>] (./input/spec.tex
 LaTeX Font Info:    Try loading font information for OMS+lmr on input line 10.
- (c:/texlive/2015/texmf-dist/tex/latex/lm/omslmr.fd
+
+(c:/texlive/2015/texmf-dist/tex/latex/lm/omslmr.fd
 File: omslmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Font shape `OMS/lmr/m/n' in size <10> not available
 (Font)              Font shape `OMS/lmsy/m/n' tried instead on input line 10.
-)
-[4] (./input/task.tex) [5] (./input/techno.tex)
-Underfull \hbox (badness 10000) in paragraph at lines 4--84
+) [4] (./input/task.tex
+Underfull \hbox (badness 10000) in paragraph at lines 31--32
 
  []
 
-[6] (./input/design.tex)
-Underfull \hbox (badness 10000) in paragraph at lines 4--86
+) [5] (./input/techno.tex
+Underfull \hbox (badness 10000) in paragraph at lines 7--8
 
  []
 
-[7] (./input/impl.tex) [8] (./input/test.tex) [9] (./input/team.tex) [10]
-(./input/conclusion.tex) [11] (./input/ideas.tex)
-Underfull \hbox (badness 10000) in paragraph at lines 4--96
+
+Underfull \hbox (badness 10000) in paragraph at lines 9--10
 
  []
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 97.
-[12]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 97.
+
+Underfull \hbox (badness 10000) in paragraph at lines 11--12
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 20--21
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 22--23
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 24--25
+
+ []
+
+) [6] (./input/design.tex
+Underfull \hbox (badness 10000) in paragraph at lines 23--24
+
+ []
+
+<./figures/drink.png, id=159, 270.41025pt x 185.493pt>
+File: ./figures/drink.png Graphic file (type png)
+
+<use ./figures/drink.png>
+Package pdftex.def Info: ./figures/drink.png used on input line 29.
+(pdftex.def)             Requested size: 270.40958pt x 185.49254pt.
+
+<./figures/drinkRecord.png, id=160, 226.446pt x 142.131pt>
+File: ./figures/drinkRecord.png Graphic file (type png)
+
+<use ./figures/drinkRecord.png>
+Package pdftex.def Info: ./figures/drinkRecord.png used on input line 36.
+(pdftex.def)             Requested size: 226.44543pt x 142.13063pt.
+ [7 <./figures/drink.png>]
+<./figures/user.png, id=169, 226.446pt x 222.23026pt>
+File: ./figures/user.png Graphic file (type png)
+ <use ./figures/user.png>
+Package pdftex.def Info: ./figures/user.png used on input line 43.
+(pdftex.def)             Requested size: 226.44543pt x 222.2297pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 51--52
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 58--59
+
+ []
+
+<./figures/beer.jpg, id=171, 1003.75pt x 1003.75pt>
+File: ./figures/beer.jpg Graphic file (type jpg)
+ <use ./figures/beer.jpg>
+Package pdftex.def Info: ./figures/beer.jpg used on input line 62.
+(pdftex.def)             Requested size: 301.12732pt x 301.12732pt.
+
+[8 <./figures/drinkRecord.png> <./figures/user.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 67--68
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 69--70
+
+ []
+
+) [9 <./figures/beer.jpg>] (./input/test.tex
+Underfull \hbox (badness 10000) in paragraph at lines 4--5
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 6--7
+
+ []
+
+) [10] (./input/conclusion.tex) [11] (./input/ideas.tex)
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 94.
+ [12]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 94.
  (./main.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 97.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 97.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 94.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 94.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: DF8FFCC8BB9644EF5C0C9756367CA18E;759.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 97.
+(rerunfilecheck)             Checksum: 7916E690B83C5C9008D4520E0BE3C951;1163.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 94.
  ) 
 Here is how much of TeX's memory you used:
- 9018 strings out of 493054
- 127887 string characters out of 6138327
- 229565 words of memory out of 5000000
- 12318 multiletter control sequences out of 15000+600000
+ 9356 strings out of 493054
+ 133660 string characters out of 6138327
+ 236366 words of memory out of 5000000
+ 12636 multiletter control sequences out of 15000+600000
  54847 words of font info for 38 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 29i,8n,32p,379b,405s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 29i,10n,32p,611b,408s stack positions out of 5000i,500n,10000p,200000b,80000s
 {c:/texlive/2015/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{c:/texlive/2015/tex
 mf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{c:/texlive/2015/texmf-dist/fonts/enc/
 dvips/lm/lm-mathsy.enc}{c:/texlive/2015/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc
@@ -859,10 +969,10 @@ mi10.pfb><c:/texlive/2015/texmf-dist/fonts/type1/public/lm/lmr10.pfb><c:/texliv
 e/2015/texmf-dist/fonts/type1/public/lm/lmr12.pfb><c:/texlive/2015/texmf-dist/f
 onts/type1/public/lm/lmri12.pfb><c:/texlive/2015/texmf-dist/fonts/type1/public/
 lm/lmsy10.pfb>
-Output written on main.pdf (13 pages, 170934 bytes).
+Output written on main.pdf (13 pages, 645628 bytes).
 PDF statistics:
- 182 PDF objects out of 1000 (max. 8388607)
- 157 compressed objects within 2 object streams
- 30 named destinations out of 1000 (max. 500000)
- 113 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 244 PDF objects out of 1000 (max. 8388607)
+ 208 compressed objects within 3 object streams
+ 44 named destinations out of 1000 (max. 500000)
+ 183 words of extra memory for PDF output out of 10000 (max. 10000000)
 

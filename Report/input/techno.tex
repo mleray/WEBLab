@@ -1,7 +1,27 @@
-\section{Selected technologies}
+\section{Selected technologies and alternatives}
 \label{sec:techno}
 
-Web based: JSP/Servlet/etc...\\
-Based on Java\\
-Database management for different drinks\\
-Graphical user interface\\
+\subsection{Selected technologies}
+\label{ssec:select}
+
+The two main technologies used in this project are Java and XHTML. Java was used to code the main program (for testing) but most importantly to perform all the calculations. XHTML was used to define the web page, which user interface was designed with CSS3, Javascript, and the bootstrap library.\\
+
+PostgreSQL and its JDBC (Java Database Connectivity) driver were used to create, store and manage the various databases of the project. This has been recommanded at the beginning of the semester.\\
+
+We also needed Glassfish4 to create and run the application server, and to synchronize it with the project.\\
+
+We chose to work with the JSF (JavaServer Faces)
+framework, associated to Facelets, to develop the Web components.
+
+
+\subsection{Alternatives}
+\label{ssec:alter}
+
+The selected technologies introduced in {\sc subsection}~\ref{ssec:select} are not the only ones that we could have used. This subsection is here to present a few alternatives.\\
+
+There are many options to handle databases, for example we could have used MySQL instead of PostgreSQL.\\
+
+To build the user interface, it would have been possible to use PHP with CSS and HTML.\\
+
+Finally, we could also have used JSP (JavaServer Pages), and not JSF, to implement the web page.
+
