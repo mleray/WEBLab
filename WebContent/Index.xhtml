@@ -11,7 +11,6 @@
     <f:event type="preRenderView" listener="#{userBean.initialize(param.session_id)}"/>
 </f:metadata>
 
-
 <h:head>
     <h:outputStylesheet name="css/stylesheet.css"/>
     <h:outputStylesheet name="css/bootstrap.css"/>
@@ -23,6 +22,7 @@
     <!-- <h1>The current time is #{timeBean.time}</h1> -->
     <!-- <h1>#{mainTest.testing()}</h1> -->
     <h1>Beerculator</h1>
+
     <div class="container-fluid">
         <div class="row">
 
@@ -36,14 +36,15 @@
                                 <h:outputText value="#{userBean.session_id}"/>
                                 <h:outputLabel value="Name"/>
                                 <h:inputText id="id_name" value="#{userBean.name}"/>
-                                <h:outputLabel value="Enter Weight"/>
+                                <h:outputLabel value="Weight[Kg]"/>
                                 <h:inputText id="id_wight" value="#{userBean.weight}"/>
                                 <h:outputLabel>Gender </h:outputLabel>
                                 <h:selectOneRadio id="id_gender" value="male">
                                     <f:selectItem itemValue="male" itemLabel="Male" selected="selected"/>
                                     <f:selectItem itemValue="female" itemLabel="Female"/>
                                 </h:selectOneRadio>
-                                <h:commandButton styleClass="btn btn-primary" value="Save" action="#{userBean.saveToDb()}"/>
+                                <h:commandButton styleClass="btn btn-primary" value="Save"
+                                                 action="#{userBean.saveToDb()}"/>
                             </h:panelGrid>
 
                         </h:form>
@@ -56,11 +57,28 @@
                             <h:outputLabel value="Drinking since"/>
                             <h:outputText value="TODO"/>
                             <h:outputLabel value="Alcohol level"/>
-                            <h:outputText value="#{userBean.BAC}"/>
+                            <c:if test="#{userBean.weight gt 0}">
+                                <c:if test="#{userBean.BAC == -1}">
+                                    <h:outputText value="Not calculated yet"/>
+                                </c:if>
+                                <c:if test="#{userBean.BAC != -1}">
+                                    <h:outputText value="#{userBean.BAC}"/>
+                                </c:if>
+                            </c:if>
+                            <c:if test="#{userBean.weight lt 1}">
+                                <h:outputText value="Set your weight"/>
+                            </c:if>
+
                             <h:outputLabel value="Sober at"/>
                             <h:outputText value="TODO"/>
                         </h:panelGrid>
-                        <h:commandButton styleClass="btn btn-lg btn-success" action="#{userBean.calculateBAC()}" value="Calculate"/>
+                        <c:if test="#{userBean.weight gt 0}">
+                            <h:commandButton styleClass="btn btn-lg btn-success" action="#{userBean.calculateBAC()}"
+                                             value="Calculate"/>
+                        </c:if>
+                        <c:if test="#{userBean.weight lt 1}">
+                            Set weight for calculation
+                        </c:if>
                     </div>
                 </div>
                 <div class="alert alert-info">You can access your data after closing the page using this link(To be updated):
@@ -92,13 +110,16 @@
                                                    action="#{userBean.drink_records[drink].decrement()}" value="-"
                                                    rendered="#{userBean.drink_records[drink].quantity != 0}"/>
                                 </h:column>
+                                <h:column>
+                                    #{userBean.drink_records[drink].user.name}
+                                </h:column>
                             </h:dataTable>
                             <h:commandButton value="Save" action="#{userBean.saveToDb()}" styleClass="btn btn-primary"/>
 
                         </h:form>
                     </div>
                 </div>
-
+                <h:outputLink styleClass="btn btn-danger" value="?session_id=#{userBean.getNewSessionID()}">Reset</h:outputLink>
             </div>
         </div>
     </div>

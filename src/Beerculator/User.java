@@ -7,20 +7,21 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import java.sql.*;
 import java.util.*;
+import java.util.Date;
 
 @ManagedBean(name = "userBean")
 @SessionScoped
 public class User {
-    private int id;
 
-    //    @ManagedProperty("#{param.session_id}")
+    private int id;
     private String session_id;
     private String name;
     private int weight;
     private String gender; // change to String
     private HashMap<Integer, DrinkRecord> drink_records;
+    private Date start;
 
-    private double BAC = 0;
+    private double BAC = -1;
 
     public ArrayList<Integer> getDrinkRecordsKeys() {
         ArrayList<Integer> dRKEys = new ArrayList<>();
@@ -30,22 +31,7 @@ public class User {
 
     @PostConstruct
     public void init() {
-        if (this.session_id == null) {
-            this.drink_records = new HashMap<>();
-        }
-        String url = "jdbc:postgresql://localhost:5432/beerculator";
 
-        Properties props = new Properties();
-        props.setProperty("user", "beerculator_admin");
-        props.setProperty("password", "beer");
-        Connection conn;
-        try {
-            conn = DriverManager.getConnection(url, props);
-            this.loadDrinkRecords(conn);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
     }
 
@@ -69,9 +55,14 @@ public class User {
         } else {
             this.setNewSessionID();
         }
+        conn = DriverManager.getConnection(url, props);
+        this.loadDrinkRecords(conn);
     }
 
     public User() {
+        if (this.session_id == null) {
+            this.drink_records = new HashMap<>();
+        }
     }
 
     public User(String name, int weight, String gender) {
@@ -84,12 +75,26 @@ public class User {
         this.gender = gender;
         this.drink_records = new HashMap<>();
 
+    }
 
+    public String reset(){
+        this.id = 0;
+        this.name = null;
+        this.weight = 0;
+        this.gender = null;
+        this.drink_records = new HashMap<>();
+        this.BAC = -1;
+        return "viewId?faces-redirect=true";
+    }
+
+    public String getNewSessionID() {
+        String session_id = "" + Math.abs(Objects.toString(System.currentTimeMillis()).hashCode());
+        session_id = "" + session_id.substring(session_id.length() - 9, session_id.length() - 1);
+        return session_id;
     }
 
     public void setNewSessionID() {
-        String session_id = "" + Math.abs(Objects.toString(System.currentTimeMillis()).hashCode());
-        this.session_id = "" + session_id.substring(session_id.length() - 9, session_id.length() - 1);
+        this.session_id = getNewSessionID();
     }
 //    public User(String session_id, Connection conn) throws SQLException {
 //        /**
@@ -131,6 +136,7 @@ public class User {
         /**
          * Loads drinkRecords for user from DB including drinks that the user hasn't drank yet
          */
+        int d;
         HashMap<Integer, Drink> menu = Drink.getDrinkList(conn);
         Iterator<Integer> drinkIterator = menu.keySet().iterator();
         while (drinkIterator.hasNext()) {
@@ -144,8 +150,10 @@ public class User {
         Statement stmt = conn.createStatement();
         ResultSet result = stmt.executeQuery(cmd);
         while (result.next()) {
-            this.drink_records.get(result.getInt("drink")).setQuantity(result.getInt("quantity"));
-            this.drink_records.get(result.getInt("drink")).setId(result.getInt("id"));
+            d = result.getInt("drink");
+            this.drink_records.get(d).setQuantity(result.getInt("quantity"));
+            this.drink_records.get(d).setId(result.getInt("id"));
+            this.drink_records.get(d).setUser(this);
         }
         return 0;
     }
@@ -209,15 +217,17 @@ public class User {
         Statement stmt = conn.createStatement();
         ResultSet result = stmt.executeQuery(cmd);
         if (!result.next()) {
-            System.err.println("User with session id: " + this.session_id + "is not in the db.");
-            return -1;
+            this.reset();
+
+//            System.err.println("User with session id: " + this.session_id + "is not in the db.");
+//            return -1;
+        }else {
+
+            this.id = result.getInt("id");
+            this.name = result.getString("name").trim();
+            this.weight = result.getInt("weight");
+            this.gender = result.getString("gender");
         }
-
-        this.id = result.getInt("id");
-        this.name = result.getString("name").trim();
-        this.weight = result.getInt("weight");
-        this.gender = result.getString("gender");
-
         return 1;
     }
 

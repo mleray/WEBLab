@@ -1,10 +1,13 @@
 package Beerculator;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
+import javafx.scene.control.TableView;
+
+import java.sql.*;
+import java.util.Properties;
 
 public class DrinkRecord {
+
+
     private int id;
     private int quantity;
     private Drink drink;
@@ -52,18 +55,19 @@ public class DrinkRecord {
          */
         String cmd = "INSERT INTO drink_records (quantity, drink, user_id) VALUES ";
         Statement stmt = conn.createStatement();
-        System.out.println(cmd + this.toStringValues() + ";");
+//        System.out.println(cmd + this.toStringValues() + ";");
         if (this.id != 0) {
             System.err.println("DrinkRecord " + this.id + " has id, thus it should be just updated, not inserted. Check what you are doing");
             return -1;
         }
         try {
-            stmt.execute(cmd + this.toStringValues() + ";");
+            ResultSet rs = stmt.executeQuery(cmd + this.toStringValues() + " RETURNING id;");
+            rs.next();
+            this.id = rs.getInt("id");
         } catch (SQLException e) {
             System.err.println("DrinkRecord " + this.id + " could not be added");
             return -2;
         }
-//        this.id = this.getIdByName(conn);
         return 0;
     }
 
@@ -85,14 +89,25 @@ public class DrinkRecord {
 
     /* DrinkRecord setters */
 
-    public void increment() {
-        ++this.quantity;
+    public void saveToDb() throws SQLException {
+        String url = "jdbc:postgresql://localhost:5432/beerculator";
+        Properties props = new Properties();
+        props.setProperty("user", "beerculator_admin");
+        props.setProperty("password", "beer");
+        Connection conn = DriverManager.getConnection(url, props);
+        this.saveToDb(conn);
     }
 
-    public void decrement() {
+    public void increment() throws SQLException {
+        ++this.quantity;
+        this.user.saveToDb();
+    }
+
+    public void decrement() throws SQLException {
         if (this.quantity > 0) {
             --this.quantity;
         }
+        this.user.saveToDb();
     }
 
 
@@ -110,13 +125,19 @@ public class DrinkRecord {
     }
 
     /* DrinkRecord getters */
-
+    public int getId() {
+        return id;
+    }
     public int getQuantity() {
         return this.quantity;
     }
 
     public Drink getDrink() {
         return this.drink;
+    }
+
+    public User getUser() {
+        return user;
     }
 
     public String toStringValues() {
@@ -129,5 +150,9 @@ public class DrinkRecord {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
