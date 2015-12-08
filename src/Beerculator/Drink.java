@@ -30,7 +30,7 @@ public class Drink {
         /**
          * Calculates the "A" value for the formula
          */
-        return ((this.volume * this.alcohol * 0.8) / 100);
+        return ((this.volume * (this.alcohol/100) * 0.8) / 10);
     }
 
     public Drink(int id, Connection conn) throws SQLException {
