@@ -20,3 +20,4 @@
 \contentsline {section}{\numberline {9}Further plans}{12}{section.9}
 \contentsline {paragraph}{New drinks}{12}{section*.2}
 \contentsline {paragraph}{Mobile version}{12}{section*.3}
+\contentsline {paragraph}{Artificial Intelligence}{12}{section*.4}
