@@ -4,7 +4,7 @@ CREATE TABLE public.users (
   session_id CHARACTER(15) NOT NULL, -- ID of the session
   weight INTEGER NOT NULL,
   gender BOOLEAN,
-  name CHARACTER(64),
+--   name CHARACTER(64),
   id INTEGER NOT NULL DEFAULT nextval('users_id_seq'::regclass)
 );
 CREATE UNIQUE INDEX session_id ON users USING BTREE (name);
