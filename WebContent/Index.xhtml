@@ -6,7 +6,9 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:c="http://java.sun.com/jsp/jstl/core">
 <f:metadata>
+    <!-- Load the session id from get-->
     <param name="session_id" value="#{param.session_id}"/>
+    <!-- Initialize the user-->
     <f:event type="preRenderView" listener="#{userBean.initialize(param.session_id)}"/>
 </f:metadata>
 
@@ -18,13 +20,19 @@
 </h:head>
 
 <h:body>
+
     <h1>Beerculator</h1>
+    <!-- Left block with user and calculation-->
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-6">
+                <!-- Panel for user data-->
                 <div class="panel panel-default">
+                    <!-- Panel heading-->
                     <div class="panel-heading">User data</div>
+                    <!-- Body of the panel-->
                     <div class="panel-body">
+                        <!-- Validation error of weight field-->
                         <h:message for="id_weight" style="color:red" errorClass="error"/>
                         <h:form>
                             <h:panelGrid columns="2" styleClass="table">
@@ -42,65 +50,75 @@
                                     <f:selectItem itemValue="false" itemLabel="Female"/>
                                 </h:selectOneMenu>
                                 <h:outputLabel value="Drinking since"/>
-                                <h:outputText value="#{timeBean.getTime()}">
+                                <h:outputText value="#{userBean.start}">
                                     <f:convertDateTime pattern="HH:mm dd.MM.yyyy"/>
                                 </h:outputText>
                             </h:panelGrid>
-                            <!--<h:inputText value="#{timeBean.getTime()}"><f:convertDateTime pattern="yyyy-MM-dd hh:mm:ss" /></h:inputText>-->
+                            <!-- Submit button-->
                             <h:commandButton styleClass="btn btn-primary" value="Save"
                                              action="#{userBean.saveToDb()}"/>
                         </h:form>
                     </div>
                 </div>
+                <!-- Panel for calculation-->
                 <div class="panel panel-default">
+                    <!-- panel heading-->
                     <div class="panel-heading">Calculation</div>
+                    <!-- panel body-->
                     <div class="panel-body">
                         <h:panelGrid columns="2" styleClass="table">
                             <h:outputLabel value="Alcohol level [%]"/>
-                            <c:if test="#{userBean.BAC == -1}">
+                            <c:if test="#{userBean.BAC lt 0}">
                                 <h:outputText value="Not calculated yet"/>
                             </c:if>
-                            <c:if test="#{userBean.BAC != -1}">
+                            <c:if test="#{userBean.BAC ge 0}">
                                 <h:outputText value="#{userBean.BAC}"/>
                             </c:if>
                             <h:outputLabel value="Sober after [hr]"/>
-                            <c:if test="#{userBean.BAC != -1}">
+                            <c:if test="#{userBean.BAC ge 0}">
                                 <h:outputText value="#{userBean.hoursUntilSober()}"/>
                             </c:if>
-                            <c:if test="#{userBean.BAC == -1}">
+                            <c:if test="#{userBean.BAC lt 0}">
                                 <h:outputText value="Not calculated yet"/>
                             </c:if>
 
                         </h:panelGrid>
 
+                        <!-- Check if the wieght was set-->
                         <c:if test="#{userBean.weight gt 0}">
                             <h:form>
-                                <h:commandButton styleClass="btn btn-lg btn-success" action="#{userBean.calculateBAC()}" value="Calculate"/>
+                                <h:commandButton styleClass="btn btn-lg btn-success" action="#{userBean.calculateBAC()}"
+                                                 value="Calculate"/>
                             </h:form>
 
                         </c:if>
-
-                        <c:if test="#{userBean.weight lt 1}">
+                        <c:if test="#{userBean.weight le 0}">
                             <h:commandButton styleClass="btn btn-lg btn-success disabled" value="Calculate"/>
 
                             <div class="alert alert-warning">Set weight for calculation</div>
                         </c:if>
                     </div>
                 </div>
-                <div class="alert alert-info">You can access your data after closing the page using this link(To be updated):
-                    http://localhost:8080/Beerculator_war_exploded/index.xhtml?session_id=<h:outputText value="#{userBean.session_id}"/>
+                <!-- Link to access the session by its id-->
+                <div class="alert alert-info">You can access your data after closing the page using this link:
+                    http://localhost:8080/Beerculator_war_exploded/index.xhtml?session_id=<h:outputText
+                            value="#{userBean.session_id}"/>
                 </div>
             </div>
+            <!-- End of left collum-->
+            <!-- Start of right column-->
             <div class="col-md-5">
+                <!-- Start of panel with drink list-->
                 <div class="panel panel-default">
+                    <!-- PAnel heading-->
                     <div class="panel-heading">Drinks</div>
+                    <!-- Panel body-->
                     <div class="panel-body">
-
+                        <!-- Message errors for each row of the form. Not working-->
                         <c:forEach items="#{userBean.getDrinkRecordsKeys()}" var="drink">
-                            <!--<c:if test="#{userBean.drink_records[drink]}.validate">-->
                             <h:message for="id_quantity#{drink}" style="color:red" errorClass="error"/>
-                            <!--</c:if>-->
                         </c:forEach>
+                        <!-- Form where each row is a drink recods-->
                         <h:form>
                             <h:dataTable value="#{userBean.getDrinkRecordsKeys()}" var="drink" styleClass="table">
                                 <h:column>
@@ -125,12 +143,14 @@
                                                      action="#{userBean.drink_records[drink].increment()}" value="+"/>
                                 </h:column>
                                 <h:column>
-                                    <h:commandLink styleClass="btn btn-sm btn-danger disabled"
-                                                   action="#{userBean.drink_records[drink].decrement()}" value="-"
-                                                   rendered="#{userBean.drink_records[drink].quantity == 0}"/>
+                                    <!-- incerement drink amount-->
                                     <h:commandLink styleClass="btn btn-sm btn-danger"
                                                    action="#{userBean.drink_records[drink].decrement()}" value="-"
                                                    rendered="#{userBean.drink_records[drink].quantity != 0}"/>
+                                    <!-- dencerement drink amount-->
+                                    <h:commandLink styleClass="btn btn-sm btn-danger disabled"
+                                                   action="#{userBean.drink_records[drink].decrement()}" value="-"
+                                                   rendered="#{userBean.drink_records[drink].quantity == 0}"/>
                                 </h:column>
                             </h:dataTable>
                             <h:commandButton value="Save" action="#{userBean.saveToDb()}" styleClass="btn btn-primary"/>
@@ -138,6 +158,7 @@
                         </h:form>
                     </div>
                 </div>
+                <!-- Reset button to get new session_id-->
                 <h:outputLink styleClass="btn btn-danger"
                               value="?session_id=#{userBean.getNewSessionID()}">Reset</h:outputLink>
             </div>

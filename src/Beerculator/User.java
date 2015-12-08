@@ -4,7 +4,6 @@
 
 package Beerculator;
 
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import java.sql.*;
@@ -19,7 +18,7 @@ import java.util.Date;
  */
 
 /**
- * Bean representing the user. Works as a session scope
+ * Java class for user which is also a bean working as a session scope
  */
 @ManagedBean(name = "userBean")
 @SessionScoped
@@ -35,7 +34,7 @@ public class User {
 
     /**
      * returns list of keys of drink_records
-     * @return The returnd ArrayList 
+     * @return The returnd ArrayList
      */
     public ArrayList<Integer> getDrinkRecordsKeys() {
         ArrayList<Integer> dRKeys = new ArrayList<>();
@@ -102,37 +101,29 @@ public class User {
         return "viewId?faces-redirect=true";
     }
 
+    /**
+     * Generates new session id
+     * @return new session id
+     */
     public String getNewSessionID() {
         String session_id = "" + Math.abs(Objects.toString(System.currentTimeMillis()).hashCode());
         session_id = "" + session_id.substring(session_id.length() - 9, session_id.length() - 1);
         return session_id;
     }
 
+    /**
+     * Sets new session id
+     */
     public void setNewSessionID() {
         this.session_id = getNewSessionID();
     }
-//    public User(String session_id, Connection conn) throws SQLException {
-//        /**
-//         * Constructor for user using the session_id
-//         */
-//        this.session_id = session_id;
-//        this.drink_records = new HashMap<>();
-//        this.getFromDb(conn);
-//        this.loadDrinkRecords(conn);
-//    }
 
-//    public User(String name, Boolean is_name, Connection conn) throws SQLException {
-//        /**
-//         * Constructor for user using its name
-//         * purpose of arg is_name is only to overload constructor using session_id
-//         */
-//        this.name = name;
-//        this.drink_records = new HashMap<>();
-//        this.getFromDb(conn);
-//        this.loadDrinkRecords(conn);
-//    }
-
-
+    /**
+     * Loads drink records for user from db
+     * @param conn Database connection
+     * @return result the function
+     * @throws SQLException
+     */
     public int loadDrinkRecords(Connection conn) throws SQLException {
         /**
          * Loads drinkRecords for user from DB including drinks that the user hasn't drank yet
@@ -159,11 +150,13 @@ public class User {
         return 0;
     }
 
+    /**
+     * Calculates number of hours to get sober
+     * @return nubmer of hours
+     */
     public double hoursUntilSober() {
-        /**
-         * Gives the nb of hours before user is sober again
-         */
-        double bac = this.BAC/100;
+
+        double bac = this.BAC;
         double hours = 0;
         if (bac < 0) {
             System.err.println("the BAC value is negative, there must be a mistake");
@@ -187,10 +180,11 @@ public class User {
         return hours;
     }
 
+    /**
+     * Gets the amount of alcohol for the user from drink_records
+     * @return amount of alc
+     */
     public double getAmountOfAlcohol() {
-        /**
-         * Gets the amount of alcohol for the user from drink_records
-         */
 
         double amount = 0;
         int q;
@@ -209,10 +203,13 @@ public class User {
         return amount;
     }
 
+    /**
+     * Widmark formula with user info and amount of alcohol
+     * @param a amount of alcohol
+     * @return bac
+     */
     public double formula(double a) {
-        /**
-         * Widmark formula with user info and amount of alcohol
-         */
+
         double ratio;
         if (this.gender) {
             ratio = 0.7;
@@ -223,19 +220,22 @@ public class User {
         return ((a / (this.weight * ratio)) - (0.015 * this.getHoursDrinking()));
     }
 
-
+    /**
+     * Fully calculates the BAC value
+     */
     public void calculateBAC() {
-        /**
-         * Fully calculates the BAC value
-         */
         double alc = this.getAmountOfAlcohol();
         this.BAC = Math.abs(formula(alc));
     }
 
+    /**
+     * Loads user data from DB if it has session_id
+     * @param conn db connection
+     * @return result of the function (success or err)
+     * @throws SQLException
+     */
     public int getFromDb(Connection conn) throws SQLException {
-        /**
-         * loads user data from DB if it has session_id
-         */
+
         String cmd;
         cmd = "SELECT id, weight, gender FROM users WHERE session_id='" + this.session_id + "';";
 //        System.out.println(cmd);
@@ -255,6 +255,10 @@ public class User {
         return 1;
     }
 
+    /**
+     * Saves user and its drink records to db. Just overrides the same method but without parameters
+     * @throws SQLException
+     */
     public void saveToDb() throws SQLException {
         String url = "jdbc:postgresql://localhost:5432/beerculator";
 
@@ -265,10 +269,12 @@ public class User {
         this.saveToDb(conn);
     }
 
+    /**
+     * saves user and relevant drinkRecords to db, depending on whether it already exists inserts new row or just updates current one.
+     * @param conn db connection
+     * @throws SQLException
+     */
     public void saveToDb(Connection conn) throws SQLException {
-        /**
-         * saves user and relevant drinkRecords to db, depending on whether it already exists inserts new row or just updates current one.
-         */
         if (this.id == 0) {
             this.addToDb(conn);
         } else {
@@ -282,10 +288,13 @@ public class User {
 
     }
 
+    /**
+     * updates row in the db for this user and its drink records
+     * @param conn db connection
+     * @return result of the operations
+     * @throws SQLException
+     */
     public int updateDb(Connection conn) throws SQLException {
-        /**
-         * updates row in the for this drink
-         */
         Statement stmt = conn.createStatement();
 
         if (this.id == 0) {
@@ -298,10 +307,13 @@ public class User {
         return 0;
     }
 
+    /**
+     * Inserts row into db for this user and sets its id
+     * @param conn db connection
+     * @return result of the operations
+     * @throws SQLException
+     */
     public int addToDb(Connection conn) throws SQLException {
-        /**
-         * inserts row into db for this drink and sets its id
-         */
         String cmd = "INSERT INTO users (session_id, weight, gender) VALUES ";
         Statement stmt = conn.createStatement();
         System.out.println(cmd + this.toStringValues() + ";");
@@ -320,6 +332,10 @@ public class User {
         return 0;
     }
 
+    /**
+     * Returns atributes of the user for sql queries
+     * @return list of values as a string
+     */
     public String toStringValues() {
         return "('" + session_id +
                 "', " + weight +
@@ -327,6 +343,10 @@ public class User {
                 ")";
     }
 
+    /**
+     * Returns list of atributes of the user with their names
+     * @return list of values and their names as a string
+     */
     @Override
     public String toString() {
         return "session_id='" + session_id +
@@ -336,7 +356,6 @@ public class User {
 
     /* Setters for user */
 
-
     /**
      * setter of session id
      * @param session_id id to be set
@@ -345,23 +364,37 @@ public class User {
         this.session_id = session_id;
     }
 
+    /**
+     * Sets new id
+     * @param id id of the user
+     */
     public void setId(int id) {
         this.id = id;
     }
 
+    /**
+     * Sets new weight
+     * @param weight new weight
+     */
     public void setWeight(int weight) {
         this.weight = weight;
     }
 
+    /**
+     * Sets gender
+     * @param gender new gender(true - male, false - female)
+     */
     public void setGender(Boolean gender) {
         this.gender = gender;
     }
 
+    /**
+     * Sets quantity of drink record of user by id of the drink
+     * If the drink record does not exist yet it is created
+     * @param drink Drink instance
+     * @param quantity quantity to be set
+     */
     public void setDrinkQuantity(Drink drink, int quantity) {
-        /**
-         * Sets quantity of drink record of user by id of the drink
-         * If the drink record does not exist yet it is created
-         **/
         if (this.drink_records.containsKey(drink.getId())) {
             this.drink_records.get(drink.getId()).setQuantity(quantity);
         } else {
@@ -370,8 +403,12 @@ public class User {
 
     }
 
+    /**
+     * Sets start of drinking
+     * @param start Date instance
+     */
     public void setStart(Date start) {
-//        this.start = start;
+        this.start = start;
     }
 
     /* End of setters */
@@ -381,7 +418,6 @@ public class User {
     public HashMap<Integer, DrinkRecord> getDrink_records() {
         return drink_records;
     }
-
 
     public int getId() {
         return id;
@@ -400,22 +436,11 @@ public class User {
     }
 
     public double getBAC() {
-        if(BAC == -1) return 0;
-        return BAC-BAC%0.01;
+        return ((double)((int)(BAC*1000)))/1000;
     }
 
     public Date getStart() {
         return start;
-    }
-
-    public static double hoursDiff(Date start, Date end) {
-        double diff;
-        diff = end.getTime() - start.getTime();
-        diff /= (3600 * 1000);
-        if(diff<1){
-            return 1;
-        }
-        return diff;
     }
 
     public double getHoursDrinking() {
@@ -425,5 +450,20 @@ public class User {
 
     /* End of getters */
 
+    /**
+     * returns differnce between two Date instances in hours
+     * @param start start date
+     * @param end end date
+     * @return difference
+     */
+    public static double hoursDiff(Date start, Date end) {
+        double diff;
+        diff = end.getTime() - start.getTime();
+        diff /= (3600 * 1000);
+        if(diff<1){
+            return 1;
+        }
+        return diff;
+    }
 }
 

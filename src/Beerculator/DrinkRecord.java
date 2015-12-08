@@ -5,44 +5,69 @@ import javafx.scene.control.TableView;
 import java.sql.*;
 import java.util.Properties;
 
-public class DrinkRecord {
+/**
+ * @author Tomáš Sekanina
+ * @author Patricio Sanchez
+ * @author Maud Leray
+ * @author Alvaro Gonzalez
+ */
 
+/**
+ * Class for drink records
+ * Implements the same attributes as are in the sql
+ */
+public class DrinkRecord {
 
     private int id;
     private int quantity;
     private Drink drink;
     private User user;
-    private String volume;
-    private String alcohol;
 
+    /**
+     * Constructor
+     * @param user User instance
+     * @param drink Drink instance
+     */
     public DrinkRecord(User user, Drink drink) {
         this.user = user;
         this.drink = drink;
     }
 
+    /**
+     * Constructor of DrinkRecords using its Drink object
+     * @param user User instance
+     * @param drink Drink instance
+     * @param quantity Quantity
+     */
     public DrinkRecord(User user, Drink drink, int quantity) {
-        /**
-         * constructor of DrinkRecords using its Drink object
-         */
         this.user = user;
         this.drink = drink;
         this.quantity = quantity;
     }
 
+    /**
+     * Constructor of DrinkRecord using drink_id and loads the drink from DB
+     * @param id Id
+     * @param quantity Quantity
+     * @param drink drink id
+     * @param user User instance
+     * @param conn db connection
+     * @throws SQLException
+     */
     public DrinkRecord(int id, int quantity, int drink, User user, Connection conn) throws SQLException {
-        /**
-         * constructor of DrinkRecord using drink_id -> loads the drink from DB
-         */
+
         this.user = user;
         this.id = id;
         this.quantity = quantity;
         this.drink = new Drink(drink, conn);
     }
 
+    /**
+     * saves drinkRecord to db, depending on whether it already exists inserts new row or just updates current one.
+     * @param conn db connection
+     * @throws SQLException
+     */
     public void saveToDb(Connection conn) throws SQLException {
-        /**
-         * saves drinkRecord to db, depending on whether it already exists inserts new row or just updates current one.
-         */
         if (this.id == 0) {
             this.addToDb(conn);
         } else {
@@ -51,10 +76,13 @@ public class DrinkRecord {
 
     }
 
+    /**
+     * Adds record to DB
+     * @param conn db connection
+     * @return result of the operations
+     * @throws SQLException
+     */
     public int addToDb(Connection conn) throws SQLException {
-        /**
-         * Adds record to DB
-         */
         String cmd = "INSERT INTO drink_records (quantity, drink, user_id) VALUES ";
         Statement stmt = conn.createStatement();
 //        System.out.println(cmd + this.toStringValues() + ";");
@@ -73,10 +101,13 @@ public class DrinkRecord {
         return 0;
     }
 
+    /**
+     * updates row in the for this drink
+     * @param conn db connection
+     * @return result of the operations
+     * @throws SQLException
+     */
     public int updateDb(Connection conn) throws SQLException {
-        /**
-         * updates row in the for this drink
-         */
         Statement stmt = conn.createStatement();
 
         if (this.id == 0) {
@@ -89,17 +120,11 @@ public class DrinkRecord {
         return 0;
     }
 
-    /* DrinkRecord setters */
-
-    public void saveToDb() throws SQLException {
-        String url = "jdbc:postgresql://localhost:5432/beerculator";
-        Properties props = new Properties();
-        props.setProperty("user", "beerculator_admin");
-        props.setProperty("password", "beer");
-        Connection conn = DriverManager.getConnection(url, props);
-        this.saveToDb(conn);
-    }
-
+    /**
+     * method called from the jsf
+     * incerements quantity
+     * @throws SQLException
+     */
     public void increment() throws SQLException {
         ++this.quantity;
         if(this.user.getId()==0) {
@@ -109,6 +134,11 @@ public class DrinkRecord {
         }
     }
 
+    /**
+     * method called from the jsf
+     * decrements quantity
+     * @throws SQLException
+     */
     public void decrement() throws SQLException {
         if (this.quantity > 0) {
             --this.quantity;
@@ -121,11 +151,40 @@ public class DrinkRecord {
     }
 
 
+    /**
+     * Saves the instance to db
+     * @throws SQLException
+     */
+    public void saveToDb() throws SQLException {
+        String url = "jdbc:postgresql://localhost:5432/beerculator";
+        Properties props = new Properties();
+        props.setProperty("user", "beerculator_admin");
+        props.setProperty("password", "beer");
+        Connection conn = DriverManager.getConnection(url, props);
+        this.saveToDb(conn);
+    }
+
+    /* DrinkRecord setters */
+
+
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     /* End of setters */
+
+    /**
+     * Returns list of atributes of the user with their names
+     * @return list of values and their names as a string
+     */
     @Override
     public String toString() {
         return "id=" + id +
@@ -133,6 +192,19 @@ public class DrinkRecord {
                 ", drink=" + drink.getId() +
                 ", user_id=" + user.getId();
     }
+
+    /**
+     * Returns atributes of the user for sql queries
+     * @return list of values as a string
+     */
+    public String toStringValues() {
+        return "(" +
+                quantity + ", " +
+                drink.getId() + ", " +
+                user.getId() +
+                ")";
+    }
+
 
     /* DrinkRecord getters */
     public int getId() {
@@ -150,27 +222,12 @@ public class DrinkRecord {
         return user;
     }
 
-    public String toStringValues() {
-        return "(" +
-                quantity + ", " +
-                drink.getId() + ", " +
-                user.getId() +
-                ")";
+
+    public int getVolume() {
+        return this.drink.getVolume();
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public String getVolume() {
-        return volume;
-    }
-
-    public String getAlcohol() {
-        return alcohol;
+    public Double getAlcohol() {
+        return this.drink.getAlcohol();
     }
 }
