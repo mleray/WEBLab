@@ -12,6 +12,8 @@ public class DrinkRecord {
     private int quantity;
     private Drink drink;
     private User user;
+    private String volume;
+    private String alcohol;
 
     public DrinkRecord(User user, Drink drink) {
         this.user = user;
@@ -100,14 +102,22 @@ public class DrinkRecord {
 
     public void increment() throws SQLException {
         ++this.quantity;
-        this.user.saveToDb();
+        if(this.user.getId()==0) {
+            this.user.saveToDb();
+        }else {
+            this.saveToDb();
+        }
     }
 
     public void decrement() throws SQLException {
         if (this.quantity > 0) {
             --this.quantity;
         }
-        this.user.saveToDb();
+        if(this.user.getId()==0) {
+            this.user.saveToDb();
+        }else {
+            this.saveToDb();
+        }
     }
 
 
@@ -154,5 +164,13 @@ public class DrinkRecord {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getVolume() {
+        return volume;
+    }
+
+    public String getAlcohol() {
+        return alcohol;
     }
 }

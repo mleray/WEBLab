@@ -1,44 +1,53 @@
+/**
+ *  Main file of project beerculator serving for comutation of BAC.
+ */
+
 package Beerculator;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import java.sql.*;
 import java.util.*;
 import java.util.Date;
 
+/**
+ * @author Tomáš Sekanina
+ * @author Patricio Sanchez
+ * @author Maud Leray
+ * @author Alvaro Gonzalez
+ */
+
+/**
+ * Bean representing the user. Works as a session scope
+ */
 @ManagedBean(name = "userBean")
 @SessionScoped
 public class User {
 
     private int id;
     private String session_id;
-    private String name;
     private int weight;
-    private String gender; // change to String
+    private Boolean gender = true; // change to String
     private HashMap<Integer, DrinkRecord> drink_records;
+    private double BAC = -1;
     private Date start;
 
-    private double BAC = -1;
-
+    /**
+     * returns list of keys of drink_records
+     * @return The returnd ArrayList 
+     */
     public ArrayList<Integer> getDrinkRecordsKeys() {
-        ArrayList<Integer> dRKEys = new ArrayList<>();
-        dRKEys.addAll(this.drink_records.keySet());
-        return dRKEys;
+        ArrayList<Integer> dRKeys = new ArrayList<>();
+        dRKeys.addAll(this.drink_records.keySet());
+        return dRKeys;
     }
 
-    @PostConstruct
-    public void init() {
-
-
-    }
-
-    public void setSession_id(String session_id) {
-        this.session_id = session_id;
-    }
-
+    /**
+     * method which loads the user from db
+     * @param session_id session id by which the user is loaded from db
+     * @throws SQLException
+     */
     public void initialize(String session_id) throws SQLException {
         String url = "jdbc:postgresql://localhost:5432/beerculator";
 
@@ -48,7 +57,7 @@ public class User {
         Connection conn = DriverManager.getConnection(url, props);
 
         if (!session_id.equals("") || this.session_id != null) {
-            if(!session_id.equals("")) {
+            if (!session_id.equals("")) {
                 this.session_id = session_id;
             }
             this.getFromDb(conn);
@@ -59,17 +68,20 @@ public class User {
         this.loadDrinkRecords(conn);
     }
 
+    /**
+     * Constructor for user which is called on start of the session
+     */
     public User() {
         if (this.session_id == null) {
             this.drink_records = new HashMap<>();
+            this.start = new Date();
         }
     }
 
-    public User(String name, int weight, String gender) {
-        /**
-         * Constructor for user that is not in the db yet
-         */
-        this.name = name;
+    /**
+     * Constructor for user used for testing
+     */
+    public User(int weight, Boolean gender) {
         this.setNewSessionID();
         this.weight = weight;
         this.gender = gender;
@@ -77,9 +89,12 @@ public class User {
 
     }
 
-    public String reset(){
+    /**
+     * Method called when reset button pressed. Serves for creating a new session
+     * @return redirect string
+     */
+    public String reset() {
         this.id = 0;
-        this.name = null;
         this.weight = 0;
         this.gender = null;
         this.drink_records = new HashMap<>();
@@ -117,20 +132,6 @@ public class User {
 //        this.loadDrinkRecords(conn);
 //    }
 
-    public int getIdByName(Connection conn) throws SQLException {
-        /**
-         * returns id of user by its name
-         */
-        String cmd = "SELECT id FROM users WHERE name='" + this.name + "';";
-//        System.out.println(cmd);
-        Statement stmt = conn.createStatement();
-        ResultSet result = stmt.executeQuery(cmd);
-        if (!result.next()) {
-            System.err.println("User " + this.name + "is not in the db.");
-            return -1;
-        }
-        return result.getInt(1);
-    }
 
     public int loadDrinkRecords(Connection conn) throws SQLException {
         /**
@@ -158,6 +159,34 @@ public class User {
         return 0;
     }
 
+    public double hoursUntilSober() {
+        /**
+         * Gives the nb of hours before user is sober again
+         */
+        double bac = this.BAC/100;
+        double hours = 0;
+        if (bac < 0) {
+            System.err.println("the BAC value is negative, there must be a mistake");
+        } else if (bac == 0){
+            hours = 0;
+        } else if (0 < bac && bac <= 0.016) {
+            hours = 1;
+        } else if (0.016 < bac && bac <= 0.05) {
+            hours = 3.75;
+        } else if (0.05 < bac && bac <= 0.08) {
+            hours = 5;
+        } else if (0.08 < bac && bac <= 0.1) {
+            hours = 6.25;
+        } else if (0.1 < bac && bac <= 0.16) {
+            hours = 10;
+        } else if (0.16 < bac && bac <= 0.2) {
+            hours = 12.5;
+        } else {
+            hours = 15;
+        }
+        return hours;
+    }
+
     public double getAmountOfAlcohol() {
         /**
          * Gets the amount of alcohol for the user from drink_records
@@ -167,6 +196,9 @@ public class User {
         int q;
         Drink d;
         Iterator<Integer> drinkIterator = drink_records.keySet().iterator();
+        if(!drinkIterator.hasNext()){
+            return 0;
+        }
         while (drinkIterator.hasNext()) {
             Integer key = drinkIterator.next();
             DrinkRecord dr = drink_records.get(key);
@@ -182,25 +214,22 @@ public class User {
          * Widmark formula with user info and amount of alcohol
          */
         double ratio;
-        if (this.gender == "male") {
+        if (this.gender) {
             ratio = 0.7;
-        } else if (this.gender == "female") {
-            ratio = 0.55;
         } else {
-            System.out.println("This gender does not exist");
-            ratio = -1;
+            ratio = 0.55;
         }
-
-        return (a / (this.weight * ratio));
+        if(a==0) return 0;
+        return ((a / (this.weight * ratio)) - (0.015 * this.getHoursDrinking()));
     }
 
-    public double calculateBAC() {
+
+    public void calculateBAC() {
         /**
          * Fully calculates the BAC value
          */
         double alc = this.getAmountOfAlcohol();
-        this.BAC = formula(alc);
-        return this.BAC;
+        this.BAC = Math.abs(formula(alc));
     }
 
     public int getFromDb(Connection conn) throws SQLException {
@@ -208,11 +237,7 @@ public class User {
          * loads user data from DB if it has session_id
          */
         String cmd;
-        if (this.session_id != null) {
-            cmd = "SELECT id, name, weight, gender FROM users WHERE session_id='" + this.session_id + "';";
-        } else {
-            cmd = "SELECT id, name, weight, gender FROM users WHERE name='" + this.name + "';";
-        }
+        cmd = "SELECT id, weight, gender FROM users WHERE session_id='" + this.session_id + "';";
 //        System.out.println(cmd);
         Statement stmt = conn.createStatement();
         ResultSet result = stmt.executeQuery(cmd);
@@ -221,12 +246,11 @@ public class User {
 
 //            System.err.println("User with session id: " + this.session_id + "is not in the db.");
 //            return -1;
-        }else {
+        } else {
 
             this.id = result.getInt("id");
-            this.name = result.getString("name").trim();
             this.weight = result.getInt("weight");
-            this.gender = result.getString("gender");
+            this.gender = result.getBoolean("gender");
         }
         return 1;
     }
@@ -265,7 +289,7 @@ public class User {
         Statement stmt = conn.createStatement();
 
         if (this.id == 0) {
-            System.err.printf("User " + this.name + "does not have id, thus it should be just inserted, not updated. Check what you are doing");
+            System.err.printf("User does not have id, thus it should be just inserted, not updated. Check what you are doing");
             return -1;
         }
         String cmd = "UPDATE users SET " + this.toString() + " WHERE id=" + this.id + ";";
@@ -278,26 +302,26 @@ public class User {
         /**
          * inserts row into db for this drink and sets its id
          */
-        String cmd = "INSERT INTO users (session_id, name, weight, gender) VALUES ";
+        String cmd = "INSERT INTO users (session_id, weight, gender) VALUES ";
         Statement stmt = conn.createStatement();
         System.out.println(cmd + this.toStringValues() + ";");
         if (this.id != 0) {
-            System.err.println("User " + this.name + " has id, thus it should be just updated, not inserted. Check what you are doing");
+            System.err.println("User has id, thus it should be just updated, not inserted. Check what you are doing");
             return -1;
         }
         try {
-            stmt.execute(cmd + this.toStringValues() + ";");
+            ResultSet rs = stmt.executeQuery(cmd + this.toStringValues() + " RETURNING id;");
+            rs.next();
+            this.id = rs.getInt("id");
         } catch (SQLException e) {
-            System.err.println("User " + this.name + " could not be added");
+            System.err.println("User could not be added");
             return -2;
         }
-        this.id = this.getIdByName(conn);
         return 0;
     }
 
     public String toStringValues() {
         return "('" + session_id +
-                "', '" + name +
                 "', " + weight +
                 ", " + gender +
                 ")";
@@ -306,23 +330,30 @@ public class User {
     @Override
     public String toString() {
         return "session_id='" + session_id +
-                "', name='" + name +
                 "', weight=" + weight +
                 ", gender=" + gender;
     }
 
     /* Setters for user */
 
+
+    /**
+     * setter of session id
+     * @param session_id id to be set
+     */
+    public void setSession_id(String session_id) {
+        this.session_id = session_id;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
-
 
     public void setWeight(int weight) {
         this.weight = weight;
     }
 
-    public void setGender(String gender) {
+    public void setGender(Boolean gender) {
         this.gender = gender;
     }
 
@@ -339,8 +370,8 @@ public class User {
 
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setStart(Date start) {
+//        this.start = start;
     }
 
     /* End of setters */
@@ -351,9 +382,6 @@ public class User {
         return drink_records;
     }
 
-    public String getName() {
-        return name;
-    }
 
     public int getId() {
         return id;
@@ -367,14 +395,35 @@ public class User {
         return weight;
     }
 
-    public String getGender() {
+    public Boolean getGender() {
         return gender;
     }
 
     public double getBAC() {
-        return BAC;
+        if(BAC == -1) return 0;
+        return BAC-BAC%0.01;
+    }
+
+    public Date getStart() {
+        return start;
+    }
+
+    public static double hoursDiff(Date start, Date end) {
+        double diff;
+        diff = end.getTime() - start.getTime();
+        diff /= (3600 * 1000);
+        if(diff<1){
+            return 1;
+        }
+        return diff;
+    }
+
+    public double getHoursDrinking() {
+        Date now = new Date();
+        return hoursDiff(this.start, now);
     }
 
     /* End of getters */
 
 }
+

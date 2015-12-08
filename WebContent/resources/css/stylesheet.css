@@ -2,7 +2,7 @@ html, body{
 	margin: 0;
 	padding: 0;
 	height: 100%;
-	background: #F55035;
+	background: #F0F0C0;
 }
 
 .user-data{
@@ -14,36 +14,33 @@ html, body{
 }
 body{
 	font-family: Verdana;
-	background: #F55035;
 }
 
 h1{
 	text-align: center;
 	font-size: 24pt;
-	background: #F55035;
-	color: white;
+	background: #F0F0C0;
 	margin: 0;
 	padding-top: 10px;
+	color: #473200 !important;
+	padding-bottom: 25px;
 	/*
     border-radius: 5px;
     box-shadow: 0px 0px 5px 5px black; */
 }
 
 div{
-	background: #F55035;
+	background: #FFD600;
 	font-size: 14pt;
-	color: white;
+	color: #473200;
 }
 
 table{
-	border-radius: 2px;
+	border: none;
+	/*border-radius: 5px;
 	border-style: solid;
 	border-width: 2px;
-	border-color: #E1523D; /*#E1523D or #E82F0C*/
-}
-
-input[type="text"]{
-	color: black;
+	border-color: #8D5103; /*!*#E1523D or #E82F0C*!/*/
 }
 
 #form_1{
@@ -51,20 +48,13 @@ input[type="text"]{
 	margin-top: 25px;
 }
 
-button{
-	color: white;
-	font-size: 14pt;
-	background: #3498db;
-	border: none;
-	text-decoration: none;
-	-webkit-border-radius: 5;
-	-moz-border-radius: 5;
-	border-radius: 5px;
-	margin-left: 15%;
-	margin-top: 25px;
+.panel-heading {
+	background: #F0A800 !important;
+	color: white!important;
+	border: none !important;
 }
 
-button:hover {
-	background: #3cb0fd;
-	text-decoration: none;
+.panel{
+	border: none !important;
 }
+

@@ -3,7 +3,6 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:c="http://java.sun.com/jsp/jstl/core">
 <f:metadata>
@@ -19,34 +18,37 @@
 </h:head>
 
 <h:body>
-    <!-- <h1>The current time is #{timeBean.time}</h1> -->
-    <!-- <h1>#{mainTest.testing()}</h1> -->
     <h1>Beerculator</h1>
-
     <div class="container-fluid">
         <div class="row">
-
-            <div class="col-md-5">
+            <div class="col-md-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">User data</div>
                     <div class="panel-body">
+                        <h:message for="id_weight" style="color:red" errorClass="error"/>
                         <h:form>
                             <h:panelGrid columns="2" styleClass="table">
                                 <h:outputLabel value="Session id"/>
                                 <h:outputText value="#{userBean.session_id}"/>
-                                <h:outputLabel value="Name"/>
-                                <h:inputText id="id_name" value="#{userBean.name}"/>
-                                <h:outputLabel value="Weight[Kg]"/>
-                                <h:inputText id="id_wight" value="#{userBean.weight}"/>
+                                <h:outputLabel value="Weight [Kg]"/>
+                                <h:inputText id="id_weight" value="#{userBean.weight}" label="Weight">
+                                    <f:convertNumber integerOnly="true" for="id_weight"/>
+                                    <f:validateDoubleRange minimum="0" maximum="500" for="id_weight"/>
+                                </h:inputText>
                                 <h:outputLabel>Gender </h:outputLabel>
-                                <h:selectOneRadio id="id_gender" value="male">
-                                    <f:selectItem itemValue="male" itemLabel="Male" selected="selected"/>
-                                    <f:selectItem itemValue="female" itemLabel="Female"/>
-                                </h:selectOneRadio>
-                                <h:commandButton styleClass="btn btn-primary" value="Save"
-                                                 action="#{userBean.saveToDb()}"/>
+                                <h:selectOneMenu id="id_gender" value="male" converter="javax.faces.Boolean"
+                                                 required="false">
+                                    <f:selectItem itemValue="true" itemLabel="Male" selected="selected"/>
+                                    <f:selectItem itemValue="false" itemLabel="Female"/>
+                                </h:selectOneMenu>
+                                <h:outputLabel value="Drinking since"/>
+                                <h:outputText value="#{timeBean.getTime()}">
+                                    <f:convertDateTime pattern="HH:mm dd.MM.yyyy"/>
+                                </h:outputText>
                             </h:panelGrid>
-
+                            <!--<h:inputText value="#{timeBean.getTime()}"><f:convertDateTime pattern="yyyy-MM-dd hh:mm:ss" /></h:inputText>-->
+                            <h:commandButton styleClass="btn btn-primary" value="Save"
+                                             action="#{userBean.saveToDb()}"/>
                         </h:form>
                     </div>
                 </div>
@@ -54,49 +56,69 @@
                     <div class="panel-heading">Calculation</div>
                     <div class="panel-body">
                         <h:panelGrid columns="2" styleClass="table">
-                            <h:outputLabel value="Drinking since"/>
-                            <h:outputText value="TODO"/>
-                            <h:outputLabel value="Alcohol level"/>
-                            <c:if test="#{userBean.weight gt 0}">
-                                <c:if test="#{userBean.BAC == -1}">
-                                    <h:outputText value="Not calculated yet"/>
-                                </c:if>
-                                <c:if test="#{userBean.BAC != -1}">
-                                    <h:outputText value="#{userBean.BAC}"/>
-                                </c:if>
+                            <h:outputLabel value="Alcohol level [%]"/>
+                            <c:if test="#{userBean.BAC == -1}">
+                                <h:outputText value="Not calculated yet"/>
                             </c:if>
-                            <c:if test="#{userBean.weight lt 1}">
-                                <h:outputText value="Set your weight"/>
+                            <c:if test="#{userBean.BAC != -1}">
+                                <h:outputText value="#{userBean.BAC}"/>
+                            </c:if>
+                            <h:outputLabel value="Sober after [hr]"/>
+                            <c:if test="#{userBean.BAC != -1}">
+                                <h:outputText value="#{userBean.hoursUntilSober()}"/>
+                            </c:if>
+                            <c:if test="#{userBean.BAC == -1}">
+                                <h:outputText value="Not calculated yet"/>
                             </c:if>
 
-                            <h:outputLabel value="Sober at"/>
-                            <h:outputText value="TODO"/>
                         </h:panelGrid>
+
                         <c:if test="#{userBean.weight gt 0}">
-                            <h:commandButton styleClass="btn btn-lg btn-success" action="#{userBean.calculateBAC()}"
-                                             value="Calculate"/>
+                            <h:form>
+                                <h:commandButton styleClass="btn btn-lg btn-success" action="#{userBean.calculateBAC()}" value="Calculate"/>
+                            </h:form>
+
                         </c:if>
+
                         <c:if test="#{userBean.weight lt 1}">
-                            Set weight for calculation
+                            <h:commandButton styleClass="btn btn-lg btn-success disabled" value="Calculate"/>
+
+                            <div class="alert alert-warning">Set weight for calculation</div>
                         </c:if>
                     </div>
                 </div>
                 <div class="alert alert-info">You can access your data after closing the page using this link(To be updated):
-                    http://localhost:8080/Beerculator_war_exploded/index.xhtml?session_id=#{userBean.session_id}
+                    http://localhost:8080/Beerculator_war_exploded/index.xhtml?session_id=<h:outputText value="#{userBean.session_id}"/>
                 </div>
             </div>
             <div class="col-md-5">
                 <div class="panel panel-default">
                     <div class="panel-heading">Drinks</div>
                     <div class="panel-body">
+
+                        <c:forEach items="#{userBean.getDrinkRecordsKeys()}" var="drink">
+                            <!--<c:if test="#{userBean.drink_records[drink]}.validate">-->
+                            <h:message for="id_quantity#{drink}" style="color:red" errorClass="error"/>
+                            <!--</c:if>-->
+                        </c:forEach>
                         <h:form>
                             <h:dataTable value="#{userBean.getDrinkRecordsKeys()}" var="drink" styleClass="table">
                                 <h:column>
                                     <h:outputLabel value="#{userBean.drink_records[drink].drink.name}"/>
                                 </h:column>
                                 <h:column>
-                                    <h:inputText value="#{userBean.drink_records[drink].quantity}"
-                                                 converter="javax.faces.Integer"/>
+                                    <h:outputLabel value="#{userBean.drink_records[drink].drink.volume} ml"/>
+                                </h:column>
+                                <h:column>
+                                    <h:outputLabel value="#{userBean.drink_records[drink].drink.alcohol} %"/>
+                                </h:column>
+                                <h:column>
+                                    <h:inputText label="Number of drinks" id="id_quantity#{drink}"
+                                                 value="#{userBean.drink_records[drink].quantity}">
+                                        <f:convertNumber integerOnly="true" for="id_quantity#{drink}"/>
+                                        <f:validateDoubleRange minimum="0" for="id_quantity#{drink}"/>
+                                    </h:inputText>
+
                                 </h:column>
                                 <h:column>
                                     <h:commandButton styleClass="btn btn-sm btn-success"
@@ -110,16 +132,14 @@
                                                    action="#{userBean.drink_records[drink].decrement()}" value="-"
                                                    rendered="#{userBean.drink_records[drink].quantity != 0}"/>
                                 </h:column>
-                                <h:column>
-                                    #{userBean.drink_records[drink].user.name}
-                                </h:column>
                             </h:dataTable>
                             <h:commandButton value="Save" action="#{userBean.saveToDb()}" styleClass="btn btn-primary"/>
 
                         </h:form>
                     </div>
                 </div>
-                <h:outputLink styleClass="btn btn-danger" value="?session_id=#{userBean.getNewSessionID()}">Reset</h:outputLink>
+                <h:outputLink styleClass="btn btn-danger"
+                              value="?session_id=#{userBean.getNewSessionID()}">Reset</h:outputLink>
             </div>
         </div>
     </div>
