@@ -43,6 +43,15 @@ The calculation methods, calculateBAC() and hoursUntilSober(double), are impleme
    \includegraphics{./figures/user.png}
    \caption{Class User.java, its attributes and its methods}
    \label{fig:userJava}
+\end{figure} 
+
+When the user starts Beerculator, the tool sends queries to the database in order to get the predefined drinks. When this is done, the user can interact with the application. He can add drinks, remove some, and enter his personal data (gender and weight). After that, the user can launch the calculation and Beerculator can send him the results. This behaviour is described in an activity diagram, on {\sc figure}~\ref{fig:activ}.
+
+\begin{figure}[H]
+\centering
+   \includegraphics[scale=0.9]{./figures/activDiag.png}
+   \caption{Activity diagram for the use of Beerculator}
+   \label{fig:activ}
 \end{figure}
 
 {\bf Web content}\\
@@ -57,15 +66,15 @@ Three main elements were needed in Beerculator's interface: one to get the user 
 
 \begin{figure}[H]
 \centering
-   \includegraphics[scale=0.65]{./figures/ui.jpg}
+   \includegraphics[scale=0.6]{./figures/ui.jpg}
    \caption{User interface of Beerculator}
    \label{fig:ui}
 \end{figure}
 
-On the top left part of the interface, the first information is the session ID, that can be used by the user to get back to the page later. Then the user can add all informations that Beerculator needs from him. He can indicate its gender (male or female) by picking in a list, and its weight thanks to a text box. Another text box is available for him to tell the time that he started drinking. He can save all those informations, in case he wants to come back later, by clicking on \guillemotleft{} Save \guillemotright{}.\\
+On the top left part of the interface, the first information is the session ID, that can be used by the user to get back to the page later. Then the user can add all informations that Beerculator needs from him. He can indicate its gender (Male or Female) by picking in a list, and its weight thanks to a text box. Another text box is available for him to tell the time that he started drinking. He can save all those informations, in case he wants to come back later, by clicking on the blue \guillemotleft{} Save \guillemotright{} button.\\
 
-On the right side of the web page, the user can see a list of predefined drinks (with their volume and their alcohol percentage). With each alcohol there are two squares: one green and on red. The user can click on the green one to add one item of the corresponding alcohol to his list of drinks. If he clicks on the red button, one item of this alcohol is removed from the list of drinks. He can also save his list of drinks, for instance if the party is not over and he intends to add some more later, by clicking on \guillemotleft{} Save \guillemotright{}.\\
+On the right side of the web page, the user can see a list of predefined drinks (with their volume and their alcohol percentage). With each alcohol there are two squares: one green and on red. The user can click on the green one to add one item of the corresponding alcohol to his list of drinks. If he clicks on the red button, one item of this alcohol is removed from the list of drinks. He can also save his list of drinks, for instance if the party is not over and he intends to add some more later, by clicking on the blue \guillemotleft{} Save \guillemotright{} button.\\
 
-When he is done, the user can click on the \guillemotleft{} Calculate \guillemotright{} green button so that Beerculator starts the computation. The results appear on the bottom left corner, in the \guillemotleft{} Calculation \guillemotright{} tab. First the BAC value is indicated, next to label \guillemotleft{} Alcohol level \guillemotright{} ,and below it the time when the user will be sober again.\\
+When he is done, the user can click on the \guillemotleft{} Calculate \guillemotright{} green button so that Beerculator starts the computation. The results appear on the bottom left corner, in the \guillemotleft{} Calculation \guillemotright{} tab. First the BAC value is indicated, next to label \guillemotleft{} Alcohol level \guillemotright{} , and below it the number of hours until the user gets sober again (next to label \guillemotleft{} Sober after \guillemotright{}).\\
 
 Finally, if the user wants to erase everything and start over, he can press the \guillemotleft{} Reset \guillemotright{} red button on the bottom of the page.
